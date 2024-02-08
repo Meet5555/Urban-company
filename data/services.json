@@ -14,7 +14,7 @@
     "category": "Plumbing",
     "cost": "1500",
     "timeTaken": 3,
-    "isConsumed": false,
+    "isConsumed": true,
     "description": "Installation of plumbing systems and fixtures for homes or businesses."
   },
   {
@@ -23,7 +23,7 @@
     "category": "Painter",
     "cost": "800",
     "timeTaken": 6,
-    "isConsumed": false,
+    "isConsumed": true,
     "description": "Professional painting services for interior and exterior walls."
   },
   {

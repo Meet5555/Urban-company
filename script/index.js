@@ -1,14 +1,15 @@
 function showAvailableServices(services){
   let servicesContainer = document.getElementById('services-container');
   services.map((element)=>{
-    let card = createServiceCard(element);
-    console.log(card)
-    servicesContainer.appendChild(card)
+    if(!element.isConsumed){
+      let card = createServiceCard(element);
+      servicesContainer.appendChild(card)
+    }
   })
 }
 
 function createServiceCard(service){
-  console.log(service)
+  // console.log(service)
   const card = document.createElement('div');
   card.classList.add('service-card');
   card.classList.add('card');
@@ -19,19 +20,39 @@ function createServiceCard(service){
   card.classList.add('card-title');
   title.textContent = service.name;
   
-  const description = document.createElement('h4')
+  const description = document.createElement('h4');
   description.classList.add('service-description');
   card.classList.add('card-text');
   description.textContent = service.description;
   
-  const cost = document.createElement('h4')
+  const cost = document.createElement('h4');
   cost.classList.add('service-cost');
   cost.textContent = service.cost;
+
+  const bookServiceButton = document.createElement('button')
+  bookServiceButton.classList.add('book-service');
+  bookServiceButton.classList.add('btn');
+  bookServiceButton.classList.add('btn-primary');
+  bookServiceButton.textContent = 'Book Service';
+  bookServiceButton.addEventListener('click',handleBookService);
 
   card.appendChild(title);
   card.appendChild(description);
   card.appendChild(cost);
+  card.appendChild(bookServiceButton);
   return card;
+}
+
+function handleBookService(){
+  const loggedIn = isUserLoggedIn();
+  if(!loggedIn){
+    alert('you are not loggedIn')
+  }
+}
+
+function isUserLoggedIn(){
+  const userLoggedIn = localStorage.getItem('userLoggedIn');
+  return userLoggedIn ? true : false;
 }
 
 document.addEventListener('DOMContentLoaded',async (e)=>{
