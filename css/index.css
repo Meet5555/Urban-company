@@ -8,9 +8,10 @@
   background: #333;
   padding: 10px;
   color: white;
+  margin: auto;
 }
 
 #services-container .service-card{
-  width: 30%;
-  display: inline-block;
+  flex-basis: 30%;
+  color: black;
 }
