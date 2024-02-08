@@ -42,7 +42,7 @@ function registerUser(username,password){
   localStorage.setItem('users',JSON.stringify(users));
   // login user by default
   localStorage.setItem('userLoggedIn','true');
-  localStorage.setItem('userObj',newUser);
+  localStorage.setItem('userObj',JSON.stringify(newUser));
   window.location.href = '/index.html'
 }
 
