@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Electrical Wiring",
+    "serviceId": 1,
+    "category": "Electrician",
+    "cost": "1200",
+    "timeTaken": 4,
+    "isConsumed": false,
+    "description": "Installation and wiring of electrical systems for homes or businesses."
+  },
+  {
+    "name": "Plumbing Installation",
+    "serviceId": 2,
+    "category": "Plumbing",
+    "cost": "1500",
+    "timeTaken": 3,
+    "isConsumed": false,
+    "description": "Installation of plumbing systems and fixtures for homes or businesses."
+  },
+  {
+    "name": "Wall Painting",
+    "serviceId": 3,
+    "category": "Painter",
+    "cost": "800",
+    "timeTaken": 6,
+    "isConsumed": false,
+    "description": "Professional painting services for interior and exterior walls."
+  },
+  {
+    "name": "Appliance Repair",
+    "serviceId": 4,
+    "category": "Electrician",
+    "cost": "1000",
+    "timeTaken": 2,
+    "isConsumed": false,
+    "description": "Repair and maintenance services for various household appliances."
+  },
+  {
+    "name": "Pipe Leak Fixing",
+    "serviceId": 5,
+    "category": "Plumbing",
+    "cost": "1200",
+    "timeTaken": 4,
+    "isConsumed": false,
+    "description": "Identification and repair of leaks in plumbing pipes and fixtures."
+  },
+  {
+    "name": "Room Cleaning",
+    "serviceId": 6,
+    "category": "Cleaning",
+    "cost": "500",
+    "timeTaken": 1,
+    "isConsumed": false,
+    "description": "Thorough cleaning of rooms, including dusting, vacuuming, and surface cleaning."
+  },
+  {
+    "name": "Ceiling Fan Installation",
+    "serviceId": 7,
+    "category": "Electrician",
+    "cost": "800",
+    "timeTaken": 3,
+    "isConsumed": false,
+    "description": "Installation of ceiling fans for improved air circulation and cooling."
+  },
+  {
+    "name": "Clogged Drain Fixing",
+    "serviceId": 8,
+    "category": "Plumbing",
+    "cost": "1200",
+    "timeTaken": 2,
+    "isConsumed": false,
+    "description": "Unclogging and fixing drainage issues in sinks, tubs, and drains."
+  },
+  {
+    "name": "Exterior Painting",
+    "serviceId": 9,
+    "category": "Painter",
+    "cost": "1500",
+    "timeTaken": 5,
+    "isConsumed": false,
+    "description": "Painting services for the exterior surfaces of homes or buildings."
+  },
+  {
+    "name": "Light Fixture Replacement",
+    "serviceId": 10,
+    "category": "Electrician",
+    "cost": "1000",
+    "timeTaken": 2,
+    "isConsumed": false,
+    "description": "Replacement of light fixtures and fittings for improved lighting."
+  }
+]
