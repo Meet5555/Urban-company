@@ -9,6 +9,8 @@
   padding: 10px;
   color: white;
   margin: auto;
+  gap: 10px;
+  justify-content: space-around;
 }
 
 #services-container .service-card{

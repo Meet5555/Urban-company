@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name" : "Meet",
+    "password" : "123",
+    "isAdmin" : true,
+    "isServiceProvider": {
+      "id": 1
+    },
+    "activeServices": []
+  },
+  {
+    "id": 2,
+    "name" : "Vaideek",
+    "password" : "123",
+    "isAdmin" : true,
+    "isServiceProvider": {
+      "id": 2
+    },
+    "activeServices": []
+  },
+  {
+    "id": 3,
+    "name" : "Dhruv",
+    "password" : "123",
+    "isAdmin" : false,
+    "isServiceProvider": {
+      "id": 3
+    },
+    "activeServices": []
+  }
+]
