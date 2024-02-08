@@ -21,14 +21,16 @@ loginForm.addEventListener("submit", function (event) {
   );
   if (user) {
     localStorage.setItem("userLoggedIN", "true");
-    localStorage.setItem("userObj", user);
+    localStorage.setItem("userObj", JSON.stringify(user));
     window.location.href = "/index.html";
   } else {
     alert("Invalid username or password. Please try again.");
+    resetForm();
+    return;
   }
 });
 
 function resetForm() {
-  document.getElementById("username").value = " ";
-  document.getElementById("password").value = " ";
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
 }
