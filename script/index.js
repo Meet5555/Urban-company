@@ -30,11 +30,12 @@ function createServiceCard(service){
   cost.textContent = service.cost;
 
   const bookServiceButton = document.createElement('button')
+  bookServiceButton.id = service.serviceId
   bookServiceButton.classList.add('book-service');
   bookServiceButton.classList.add('btn');
   bookServiceButton.classList.add('btn-primary');
   bookServiceButton.textContent = 'Book Service';
-  bookServiceButton.addEventListener('click',handleBookService);
+  bookServiceButton.addEventListener('click',(e)=>{handleBookService(e)});
 
   card.appendChild(title);
   card.appendChild(description);
@@ -43,16 +44,18 @@ function createServiceCard(service){
   return card;
 }
 
-function handleBookService(){
+function handleBookService(e){
   const loggedIn = isUserLoggedIn();
   if(!loggedIn){
     alert('you are not loggedIn')
+  }else{
+    console.log("request" ,e)
   }
 }
 
 function isUserLoggedIn(){
   const userLoggedIn = localStorage.getItem('userLoggedIn');
-  return userLoggedIn ? true : false;
+  return userLoggedIn === 'true' ? true : false;
 }
 
 document.addEventListener('DOMContentLoaded',async (e)=>{

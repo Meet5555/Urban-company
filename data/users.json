@@ -6,6 +6,7 @@
     "isAdmin" : true,
     "isServiceProvider": true,
     "serviceProviderId": 1,
+    "requestedServices": [],
     "activeServices": []
   },
   {
@@ -15,6 +16,7 @@
     "isAdmin" : false,
     "isServiceProvider": true,
     "serviceProviderId": 2,
+    "requestedServices": [],
     "activeServices": []
   },
   {
@@ -23,6 +25,8 @@
     "password" : "123",
     "isAdmin" : false,
     "isServiceProvider": false,
+    "requestedServices": [],
     "activeServices": []
   }
 ]
+
