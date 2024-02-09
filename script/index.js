@@ -58,6 +58,9 @@ function isUserLoggedIn(){
 document.addEventListener('DOMContentLoaded',async (e)=>{
   const services = JSON.parse(localStorage.getItem('services')) || [];
   const users = JSON.parse(localStorage.getItem('users')) || [];
+  const loginBtn = document.getElementById("login-btn");
+  const signUpBtn = document.getElementById("sign-up-btn");
+  
   if(services.length === 0){
     const services = await fetchServices();
     localStorage.setItem('services',JSON.stringify(services));
@@ -69,6 +72,18 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
     const users = await fetchUsers();
     localStorage.setItem('users',JSON.stringify(users));
   }else{
+  }
+
+  const userLoggedIn = localStorage.getItem("userLoggedIN");
+
+  if (userLoggedIn === "true") {
+    // User is logged in, hide login and sign-up buttons
+    loginBtn.style.display = "none";
+    signUpBtn.style.display = "none";
+  } else {
+    // User is not logged in, show login and sign-up buttons
+    loginBtn.style.display = "inline-block";
+    signUpBtn.style.display = "inline-block";
   }
 })
 
@@ -83,3 +98,25 @@ async function fetchUsers(){
   const data = await res.json()
   return data;
 }
+
+document.addEventListener("DOMContentLoaded", function(){
+  const logoutBtn = document.getElementById("logout-btn");
+
+  const userLoggedIn = localStorage.getItem("userLoggedIN");
+
+  if (userLoggedIn === "true") {
+    // Show logout button
+    logoutBtn.style.display = "inline-block";
+  } else {
+    // Hide logout button
+    logoutBtn.style.display = "none";
+  }
+
+  logoutBtn.addEventListener("click", function () {
+    // Set userLoggedIN to false and remove userObj from localStorage on logout
+    localStorage.setItem("userLoggedIN", "false");
+    localStorage.removeItem("userObj");
+    // Redirect to login page after logout
+    window.location.href = "/pages/login.html";
+  });
+})
