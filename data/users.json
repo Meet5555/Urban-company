@@ -4,9 +4,8 @@
     "name" : "Meet",
     "password" : "123",
     "isAdmin" : true,
-    "isServiceProvider": {
-      "id": 1
-    },
+    "isServiceProvider": true,
+    "serviceProviderId": 1,
     "activeServices": []
   },
   {
@@ -14,9 +13,8 @@
     "name" : "Vaideek",
     "password" : "123",
     "isAdmin" : false,
-    "isServiceProvider": {
-      "id": 2
-    },
+    "isServiceProvider": true,
+    "serviceProviderId": 2,
     "activeServices": []
   },
   {
@@ -24,9 +22,7 @@
     "name" : "Dhruv",
     "password" : "123",
     "isAdmin" : false,
-    "isServiceProvider": {
-      "id": 3
-    },
+    "isServiceProvider": false,
     "activeServices": []
   }
 ]
