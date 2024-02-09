@@ -34,13 +34,13 @@ function createServiceCard(service){
   cost.classList.add('card-text');
   cost.textContent = service.cost;
 
-  const bookServiceButton = document.createElement('button')
-  bookServiceButton.id = service.serviceId
-  bookServiceButton.classList.add('delete-requested-service-btn');
-  bookServiceButton.classList.add('btn');
-  bookServiceButton.classList.add('btn-danger');
-  bookServiceButton.textContent = 'Cancel Service';
-  bookServiceButton.addEventListener('click',(e)=>{ handleCancelService(e) });
+  const cancelServiceButton = document.createElement('button')
+  cancelServiceButton.id = service.serviceId
+  cancelServiceButton.classList.add('delete-requested-service-btn');
+  cancelServiceButton.classList.add('btn');
+  cancelServiceButton.classList.add('btn-danger');
+  cancelServiceButton.textContent = 'Cancel Service';
+  cancelServiceButton.addEventListener('click',(e)=>{ handleCancelService(e) });
 
   card.appendChild(title);
   card.appendChild(description);
@@ -86,10 +86,13 @@ function handleCancelService(e){
   userObj.activeServices = userObj.activeServices.filter((serviceId) => serviceId !== requestedServiceId);
   localStorage.setItem('userObj', JSON.stringify(userObj));
 
-  // update main users array
-  const updatedUsers = users.map((user) => {
+  // update main users array for removing service from active service and also change serviceProvider Obj to remove from accepted request
+  let updatedUsers = users.map((user) => {
     if (user.id === userObj.id) {
       user.activeServices = user.activeServices.filter((serviceId) => serviceId !== requestedServiceId);
+    }
+    if(user.isServiceProvider == true ){
+      user.acceptedServices = user.acceptedServices.filter((serviceId)=>{return serviceId != requestedServiceId})
     }
     return user;
   });

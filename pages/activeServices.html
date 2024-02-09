@@ -63,12 +63,8 @@
       if(userLoggedIn == 'false'){
         window.location.href = '/index.html'
       }else if(userLoggedIn == 'true'){
-        if(userObj.isServiceProvider == true){
-          requestedServicesBtn.style.display = 'none';
-          activeServicesBtn.style.display = 'none';
-          acceptedServicesBtn.style.display = 'block';
-        }else if(userObj.isAdmin == true){
-
+        if(userObj.isServiceProvider == true || userObj.isAdmin == true){
+          window.location.href = '/index.html';
         }else{
           requestedServicesBtn.style.display = 'block';
           activeServicesBtn.style.display = 'block';
