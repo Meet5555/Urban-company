@@ -50,6 +50,13 @@
     let LoginBtn = document.getElementById('login-btn');
     LoginBtn.addEventListener('click',()=>{
       window.location.href = './login.html'
-    });  
+    });
+    
+    document.addEventListener('DOMContentLoaded',async (e)=>{
+      const userLoggedIn = localStorage.getItem("userLoggedIn") || false;
+      if(userLoggedIn == 'true'){
+        window.location.href = '/index.html'
+      }
+    })
   </script>
 </html>
