@@ -4,7 +4,7 @@
     "name" : "Meet",
     "password" : "123",
     "isAdmin" : true,
-    "isServiceProvider": true,
+    "isServiceProvider": false,
     "serviceProviderId": 1,
     "requestedServices": [],
     "activeServices": []
@@ -15,7 +15,9 @@
     "password" : "123",
     "isAdmin" : false,
     "isServiceProvider": true,
-    "serviceProviderId": 2,
+    "serviceProviderId": 1,
+    "serviceProviderCategory": "Plumbing",
+    "acceptedServices": [],
     "requestedServices": [],
     "activeServices": []
   },
@@ -27,6 +29,19 @@
     "isServiceProvider": false,
     "requestedServices": [],
     "activeServices": []
+  },
+  {
+    "id": 4,
+    "name" : "Meet P",
+    "password" : "123",
+    "isAdmin" : false,
+    "isServiceProvider": true,
+    "serviceProviderId": 2,
+    "serviceProviderCategory": "Electrician",
+    "acceptedServices": [],
+    "requestedServices": [],
+    "activeServices": []
   }
 ]
+
 
