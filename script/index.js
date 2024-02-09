@@ -60,6 +60,8 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const loginBtn = document.getElementById("login-btn");
   const signUpBtn = document.getElementById("sign-up-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+  const userLoggedIn = localStorage.getItem("userLoggedIn") || false;
   
   if(services.length === 0){
     const services = await fetchServices();
@@ -68,23 +70,31 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
   }else{
     showAvailableServices(services);
   }
+
   if(users.length === 0){
     const users = await fetchUsers();
     localStorage.setItem('users',JSON.stringify(users));
-  }else{
   }
-
-  const userLoggedIn = localStorage.getItem("userLoggedIN");
 
   if (userLoggedIn === "true") {
-    // User is logged in, hide login and sign-up buttons
+    // User is logged in, hide login and sign-up buttons and show logout button
     loginBtn.style.display = "none";
     signUpBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
   } else {
-    // User is not logged in, show login and sign-up buttons
+    // User is not logged in, show login and sign-up buttons and hide logout button
     loginBtn.style.display = "inline-block";
     signUpBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
   }
+
+  logoutBtn.addEventListener("click", function () {
+    // Set userLoggedIn to false and remove userObj from localStorage on logout
+    localStorage.setItem("userLoggedIn", "false");
+    localStorage.removeItem("userObj");
+    // Redirect to login page after logout
+    window.location.href = "/pages/login.html";
+  });
 })
 
 async function fetchServices(){
@@ -98,25 +108,3 @@ async function fetchUsers(){
   const data = await res.json()
   return data;
 }
-
-document.addEventListener("DOMContentLoaded", function(){
-  const logoutBtn = document.getElementById("logout-btn");
-
-  const userLoggedIn = localStorage.getItem("userLoggedIN");
-
-  if (userLoggedIn === "true") {
-    // Show logout button
-    logoutBtn.style.display = "inline-block";
-  } else {
-    // Hide logout button
-    logoutBtn.style.display = "none";
-  }
-
-  logoutBtn.addEventListener("click", function () {
-    // Set userLoggedIN to false and remove userObj from localStorage on logout
-    localStorage.setItem("userLoggedIN", "false");
-    localStorage.removeItem("userObj");
-    // Redirect to login page after logout
-    window.location.href = "/pages/login.html";
-  });
-})
