@@ -47,12 +47,62 @@ function createServiceCard(service){
 function handleBookService(e){
   const loggedIn = isUserLoggedIn();
   if(!loggedIn){
-    alert('you are not loggedIn')
-  }else{
-    console.log("request" ,e)
+    alert('You are not logged in');
+  } else {
+    const userObj = JSON.parse(localStorage.getItem('userObj'));
+    const users = JSON.parse(localStorage.getItem('users'));
+    const services = JSON.parse(localStorage.getItem('services'));
+    const requestedServiceId = parseInt(e.target.id);
+    const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
+    const isAlreadyRequested = requestedServices.some(request => request.requestedService === requestedServiceId);
+
+    if (!isAlreadyRequested) {
+      // Add the new requested service to the list
+      requestedServices.push({
+        requestedBy: userObj.id,
+        requestedService: requestedServiceId,
+      });
+
+      // Update the local storage with the new requested services
+      localStorage.setItem('requestedServices', JSON.stringify(requestedServices));
+
+      // Update the requestedServices field in the userObj
+      userObj.requestedServices.push(requestedServiceId);
+
+      const updatedUsers = users.map(user => {
+        if (user.id === userObj.id) {
+          user.requestedServices.push(requestedServiceId);
+        }
+        return user;
+      });
+
+      // Update the local storage with the modified userObj
+      localStorage.setItem('userObj', JSON.stringify(userObj));
+
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+
+      console.log('Service requested:', requestedServiceId);
+      updateServiceConsumedStatus(requestedServiceId);
+      showAvailableServices(services)
+    } else {
+      alert('You have already requested this service.');
+    }
   }
 }
 
+function updateServiceConsumedStatus(serviceId) {
+  console.log('Updating isConsumed status for serviceId:', serviceId);
+  const services = JSON.parse(localStorage.getItem('services')) || [];
+  const updatedServices = services.map(service => {
+    if (service.serviceId === serviceId) {
+      return { ...service, isConsumed: true };
+    }
+    return service;
+  });
+
+  localStorage.setItem('services', JSON.stringify(updatedServices));
+}
 function isUserLoggedIn(){
   const userLoggedIn = localStorage.getItem('userLoggedIn');
   return userLoggedIn === 'true' ? true : false;
