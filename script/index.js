@@ -90,7 +90,7 @@ function handleBookService(e){
     localStorage.setItem('userObj', JSON.stringify(userObj));
     localStorage.setItem('users', JSON.stringify(updatedUsers));
     localStorage.setItem('services', JSON.stringify(updatedServices));
-
+    alert('Service Requested')
     showAvailableServices(updatedServices)
   }
 }
@@ -160,7 +160,7 @@ function handleAcceptRequest(e){
     localStorage.setItem('users',JSON.stringify(updatedUsersArray))
     localStorage.setItem('userObj',JSON.stringify(userObj))
     localStorage.setItem('services',JSON.stringify(services))
-    localStorage.setItem('requestedServices',JSON.stringify(updatedRequestedServicesObj))
+    localStorage.setItem('requestedServices',JSON.stringify(updatedRequestedServicesObj));
   }
 }
 
