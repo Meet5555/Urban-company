@@ -4,7 +4,7 @@ signUpForm.addEventListener('submit',(e)=>{
   let username = document.getElementById('username').value;
   let password = document.getElementById('password').value;
   
-  if(username.length == 0 || password.length == 0){
+  if(username.toString().trim().length == 0 || password.toString().trim().length == 0){
     alert('must enter username and password');
     resetForm();
     return;
@@ -26,7 +26,7 @@ signUpForm.addEventListener('submit',(e)=>{
       registerUser(username,password);
     }
   }
-})
+});
 
 function registerUser(username,password){
   const users = JSON.parse(localStorage.getItem('users')) || [];

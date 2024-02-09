@@ -8,7 +8,7 @@ loginForm.addEventListener("submit", function (event) {
   const enteredUsername = usernameInput.value;
   const enteredPassword = passwordInput.value;
 
-  if (enteredUsername.length == 0 || enteredPassword.length == 0) {
+  if (enteredUsername.toString().trim().length == 0 || enteredPassword.toString().trim().length == 0) {
     alert("Must enter username and password");
     resetForm();
     return;
@@ -19,8 +19,9 @@ loginForm.addEventListener("submit", function (event) {
   const user = usersData.find(
     (u) => u.name === enteredUsername && u.password === enteredPassword
   );
+  
   if (user) {
-    localStorage.setItem("userLoggedIN", "true");
+    localStorage.setItem("userLoggedIn", "true");
     localStorage.setItem("userObj", JSON.stringify(user));
     window.location.href = "/index.html";
   } else {
