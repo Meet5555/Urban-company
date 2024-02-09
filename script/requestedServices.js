@@ -34,13 +34,13 @@ function createServiceCard(service){
   cost.classList.add('card-text');
   cost.textContent = service.cost;
 
-  const bookServiceButton = document.createElement('button')
-  bookServiceButton.id = service.serviceId
-  bookServiceButton.classList.add('delete-requested-service-btn');
-  bookServiceButton.classList.add('btn');
-  bookServiceButton.classList.add('btn-danger');
-  bookServiceButton.textContent = 'Delete';
-  bookServiceButton.addEventListener('click',(e)=>{ handleDeleteService(e) });
+  const deleteServiceButton = document.createElement('button')
+  deleteServiceButton.id = service.serviceId
+  deleteServiceButton.classList.add('delete-requested-service-btn');
+  deleteServiceButton.classList.add('btn');
+  deleteServiceButton.classList.add('btn-danger');
+  deleteServiceButton.textContent = 'Delete';
+  deleteServiceButton.addEventListener('click',(e)=>{ handleDeleteService(e) });
 
   card.appendChild(title);
   card.appendChild(description);
