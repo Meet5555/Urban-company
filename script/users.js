@@ -129,7 +129,18 @@ function handleDeleteUser(e) {
         (user) => user.id !== userToBeDeleted.id
       );
       localStorage.setItem('users', JSON.stringify(usersWithoutServiceProvider));
-      alert('user deleted');
+      // alert('user deleted');
+      Toastify({
+        text: "user deleted successfully",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+          background: "rgb(12, 188, 12)",
+        }
+      }).showToast();
       showUsers(updatedUsers);
     }
   }
@@ -160,7 +171,18 @@ function handleDeleteUser(e) {
     // Remove requested services from requestedServices array in local storage
     const updatedRequestedServicesObj = requestedServices.filter((service) => !userRequestedServices.some((userReqService) => userReqService.serviceId === service.requestedService));
     localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
-    alert('user deleted');
+    // alert('user deleted');
+    Toastify({
+      text: "user deleted successfully",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(12, 188, 12)",
+      }
+    }).showToast();
     showUsers(updatedUsers);
   }
 }

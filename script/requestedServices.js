@@ -114,8 +114,19 @@ function handleDeleteService(e){
   });
   localStorage.setItem('services', JSON.stringify(updatedServices));
 
-  alert('Request Deleted')
-  
+  // alert('Request Deleted')
+  Toastify({
+    text: "Request Deleted Successfully",
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    style: {
+      background: "rgb(12, 188, 12)",
+    }
+  }).showToast();
+
   // update requested services in the container
   const userRequestedServices = services.filter((service)=>{
     return userObj.requestedServices.includes(service.serviceId);
