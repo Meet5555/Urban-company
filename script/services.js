@@ -30,18 +30,19 @@ function createServiceCard(users,service){
   description.textContent = service.description;
 
   const category = document.createElement('h5');
-  category.classList.add('service-category');
+  category.classList.add('admin-service-category');
   category.classList.add('card-text');
   category.textContent = `Category: ${service.category}`;
   
   const cost = document.createElement('h4');
-  cost.classList.add('service-cost');
+  cost.classList.add('admin-service-cost');
   cost.classList.add('card-text');
-  cost.textContent = service.cost;
+  cost.textContent =` Cost: ₹${service.cost}`;
 
   const consumptionInfo = document.createElement('p');
-  consumptionInfo.classList.add('service-consumption-info');
+  consumptionInfo.classList.add('admin-service-consumption-info');
   consumptionInfo.classList.add('card-text');
+  consumptionInfo.classList.add('service-category');
 
   if (service.isConsumed) {
     const consumedByUser = users.find((user) => {
@@ -53,8 +54,9 @@ function createServiceCard(users,service){
   }
   
   const acceptedByInfo = document.createElement('p');
-  acceptedByInfo.classList.add('service-accepted-by-info');
+  acceptedByInfo.classList.add('admin-service-accepted-by-info');
   acceptedByInfo.classList.add('card-text');
+  acceptedByInfo.classList.add('service-category');
 
   if(service.isConsumed){
     const acceptedByUser = users.find((user) => {
@@ -69,7 +71,7 @@ function createServiceCard(users,service){
 
   const deleteServiceButton = document.createElement('button')
   deleteServiceButton.id = service.serviceId
-  deleteServiceButton.classList.add('delete-requested-service-btn');
+  deleteServiceButton.classList.add('delete-service-btn');
   deleteServiceButton.classList.add('btn');
   deleteServiceButton.classList.add('btn-danger');
   deleteServiceButton.textContent = 'Delete';
@@ -79,9 +81,9 @@ function createServiceCard(users,service){
   card.appendChild(title);
   card.appendChild(description);
   card.appendChild(category);
-  card.appendChild(cost);
   card.appendChild(consumptionInfo);
   card.appendChild(acceptedByInfo);
+  card.appendChild(cost);
   card.appendChild(deleteServiceButton);
   return card;
 }

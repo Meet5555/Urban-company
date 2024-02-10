@@ -32,7 +32,7 @@ function createServiceCard(service){
   const cost = document.createElement('h4');
   cost.classList.add('service-cost');
   cost.classList.add('card-text');
-  cost.textContent = service.cost;
+  cost.textContent =` Cost: ₹${service.cost}`;
 
   const deleteServiceButton = document.createElement('button')
   deleteServiceButton.id = service.serviceId

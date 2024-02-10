@@ -19,7 +19,7 @@ function createUserCard(user) {
   cardBody.classList.add('card-body');
 
   const userId = document.createElement('p');
-  userId.classList.add('card-text');
+  userId.classList.add('card-title');
   userId.textContent = `User ID: ${user.id}`;
 
   const userName = document.createElement('p');

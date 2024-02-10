@@ -24,22 +24,22 @@
               <a href="/pages/services.html" class="nav-link">Services</a>
             </li>
             <li class="nav-item">
-              <a href="/pages/addUser.html" class="nav-link">Add User</a>
+              <a href="/pages/addUser.html" class="nav-link active">Add User</a>
             </li>
             <li class="nav-item">
               <a href="/pages/addService.html" class="nav-link">Add Service</a>
             </li>
           </ul>
-            <button class="btn btn-outline-success mx-2" type="button" id="logout-btn">Logout</button>
+            <button class="btn btn-outline-danger mx-2" type="button" id="logout-btn">Logout</button>
         </div>
       </div>
     </nav>
 
-    <div class="container border mt-5">
-      <h2 id="container-title">Welcome Admin</h2>
+    <div class="container border rounded-4 mt-5">
+      <h2 id="container-title" class="text-center">Welcome Admin</h2>
       <div id="users-container" class="row">Add New User</div>
 
-      <form class="container w-75 mt-4 pb-3" id="add-user-form">
+      <form class="container w-75 mt-4 pb-3 customForm" id="add-user-form">
         <div class="mb-3">
           <label for="user-name" class="form-label">User Name</label>
           <input type="text" class="form-control" id="user-name" required>
