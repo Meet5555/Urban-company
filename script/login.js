@@ -13,19 +13,28 @@ loginForm.addEventListener("submit", function (event) {
     resetForm();
     return;
   }
-  //Taking the data from LS
+
+  // Taking the data from LS
   const usersData = JSON.parse(localStorage.getItem("users")) || [];
-  //Checking if the enetered credentials are valid or not
-  const user = usersData.find(
-    (u) => u.name === enteredUsername && u.password === enteredPassword
-  );
-  
-  if (user) {
-    localStorage.setItem("userLoggedIn", "true");
-    localStorage.setItem("userObj", JSON.stringify(user));
-    window.location.href = "/index.html";
+
+  // Checking if the entered username is valid
+  const isUsernameValid = usersData.some((u) => u.name === enteredUsername);
+
+  if (isUsernameValid) {
+    // If username is valid, check the password
+    const user = usersData.find((u) => u.name === enteredUsername && u.password === enteredPassword); //Remove password
+
+    if (user) {
+      localStorage.setItem("userLoggedIn", "true");
+      localStorage.setItem("userObj", JSON.stringify(user));
+      window.location.href = "/index.html";
+    } else {
+      alert("Invalid password. Please try again.");
+      resetForm();
+      return;
+    }
   } else {
-    alert("Invalid username or password. Please try again.");
+    alert("Invalid username. Please try again.");
     resetForm();
     return;
   }

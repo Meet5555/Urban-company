@@ -228,7 +228,28 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
     // Redirect to login page after logout
     window.location.href = "/pages/login.html";
   });
+
+  const searchForm = document.querySelector('.form-inline');
+  searchForm.addEventListener('submit', function (e) { //remove search button, and form, use only input
+    e.preventDefault();
+    const searchInput = document.querySelector('.form-control').value.toLowerCase();
+    performSearch(searchInput, services);
+  });
 })
+
+function performSearch(query, services) {
+  const filteredServices = services.filter(service => {
+    return service.name.toLowerCase().includes(query) || service.description.toLowerCase().includes(query);
+  });
+
+  if (filteredServices.length === 0) {
+    // Handle case when no results are found
+    alert('No matching services found.');
+  } else {
+    // Display the filtered services
+    showAvailableServices(filteredServices);
+  }
+}
 
 function showRequestedServices(services,requestedServices){
   let servicesContainer = document.getElementById('services-container');
