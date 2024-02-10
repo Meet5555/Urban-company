@@ -134,7 +134,19 @@ function handleDeleteService(e){
   let updatedServices = services.filter((service)=> service.serviceId != serviceIdToDelete);
   localStorage.setItem('services', JSON.stringify(updatedServices));
   
-  alert('Service Deleted');
+  // alert('Service Deleted');
+  Toastify({
+    text: "Service Deleted successfully",
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    style: {
+      background: "rgb(12, 188, 12)",
+    }
+  }).showToast();
+
   // call show services function
   if(!updatedServices || updatedServices.length === 0){
     noServicesInDatabase();

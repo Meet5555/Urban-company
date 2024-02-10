@@ -59,7 +59,21 @@ function createServiceCard(service,btnText){
 function handleBookService(e){
   const loggedIn = isUserLoggedIn();
   if(!loggedIn){
-    alert('You are not logged in');
+    // alert('You are not logged in');
+    Toastify({
+      text: "Please Login first to book service",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(231, 208, 0)",
+      },
+      onClick: function(){
+        window.location.href = '/pages/login.html'
+      }
+    }).showToast();
   } else {
     const userObj = JSON.parse(localStorage.getItem('userObj'));
     const users = JSON.parse(localStorage.getItem('users'));
@@ -69,7 +83,18 @@ function handleBookService(e){
 
     // check if user have more than 3 services booked or requested
     if(userObj.requestedServices.length >= 3 || userObj.activeServices.length >= 3){
-      alert('You have booked maximum of 3 services, try again after completion of previous service');
+      // alert('You have booked maximum of 3 services, try again after completion of previous service');
+      Toastify({
+        text: "You have booked maximum of 3 services, try again after completion of previous service",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+          background: "rgb(231, 208, 0)",
+        }
+      }).showToast();
       return;
     }
 
@@ -104,7 +129,18 @@ function handleBookService(e){
     localStorage.setItem('userObj', JSON.stringify(userObj));
     localStorage.setItem('users', JSON.stringify(updatedUsers));
     localStorage.setItem('services', JSON.stringify(updatedServices));
-    alert('Service Requested')
+    // alert('Service Requested')
+    Toastify({
+      text: "Service requested successfully",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(12, 188, 12)",
+      }
+    }).showToast();
     showAvailableServices(updatedServices)
   }
 }
@@ -113,7 +149,18 @@ function handleAcceptRequest(e) {
   const loggedIn = isUserLoggedIn();
 
   if (!loggedIn) {
-    alert('You are not logged in');
+    // alert('You are not logged in');
+    Toastify({
+      text: "You are not logged in",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(252, 90, 90)",
+      }
+    }).showToast();
     return;
   }
 
@@ -124,7 +171,18 @@ function handleAcceptRequest(e) {
   const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
 
   if (userObj.acceptedServices.length >= 3) {
-    alert('You have accepted a maximum of 3 services. Please try again after completing a previous service.');
+    // alert('You have accepted a maximum of 3 services. Please try again after completing a previous service.');
+    Toastify({
+      text: "You have accepted a maximum of 3 services. Please try again after completing a previous service.",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(255, 232, 36)",
+      }
+    }).showToast();
     return;
   }
 
@@ -164,7 +222,18 @@ function handleAcceptRequest(e) {
   localStorage.setItem('services', JSON.stringify(services));
   localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
   
-  alert('Service accepted');
+  // alert('Service accepted');
+  Toastify({
+    text: "Service accepted",
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    style: {
+      background: "rgb(12, 188, 12)",
+    }
+  }).showToast();
 
   // Call show requested service function
   showRequestedServices(services, updatedRequestedServicesObj);
