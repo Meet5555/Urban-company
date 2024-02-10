@@ -18,16 +18,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a href="/index.html" class="nav-link" id="home-btn">Home</a>
+              <a href="/pages/users.html" class="nav-link" id="home-btn">Users</a>
             </li>
             <li class="nav-item">
-              <a href="/pages/requestedServices.html" class="nav-link" id="requested-services-btn">Requested Services</a>
+              <a href="/pages/services.html" class="nav-link">Services</a>
             </li>
             <li class="nav-item">
-              <a href="/pages/activeServices.html" class="nav-link" id="active-services-btn">Active Services</a>
+              <a href="/pages/addUser.html" class="nav-link">Add User</a>
             </li>
             <li class="nav-item">
-              <a href="/pages/acceptedServices.html" class="nav-link" id="accepted-services-btn">Accepted Services</a>
+              <a href="/pages/addService.html" class="nav-link">Add Service</a>
             </li>
           </ul>
             <button class="btn btn-outline-success mx-2" type="button" id="logout-btn">Logout</button>
@@ -36,7 +36,8 @@
     </nav>
 
     <div class="container border mt-5">
-      <h2 id="container-title">Your Accepted Services</h2>
+      <h2 id="container-title">Welcome Admin</h2>
+      <h3 id="container-title" class="text-center">Services</h3>
       <div id="services-container" class="row"></div>
     </div>
       
@@ -45,7 +46,6 @@
     const logoutBtn = document.getElementById("logout-btn");
      
     logoutBtn.addEventListener("click", function () {
-      console.log("inside logout")
       // Set userLoggedIn to false and remove userObj from localStorage on logout
       localStorage.setItem("userLoggedIn", "false");
       localStorage.removeItem("userObj");
@@ -56,22 +56,17 @@
     document.addEventListener('DOMContentLoaded',async (e)=>{
       const userLoggedIn = localStorage.getItem("userLoggedIn") || false;
       const userObj = JSON.parse(localStorage.getItem("userObj")) || false;
-      let requestedServicesBtn = document.getElementById('requested-services-btn');
-      let activeServicesBtn = document.getElementById('active-services-btn');
-      let acceptedServicesBtn = document.getElementById('accepted-services-btn');
-      
+
       if(userLoggedIn == 'false'){
-        window.location.href = '/index.html'
+        window.location.href = '/index.html';
       }else if(userLoggedIn == 'true'){
-        if(userObj.isServiceProvider == true){
-          requestedServicesBtn.style.display = 'none';
-          activeServicesBtn.style.display = 'none';
-          acceptedServicesBtn.style.display = 'block';
+        if(userObj.isAdmin == true){
+          
         }else{
           window.location.href = '/index.html';
         }
       }
     })
   </script>
-  <script src="../script/acceptedServices.js"></script>
+  <script src="../script/services.js"></script>
 </html>
