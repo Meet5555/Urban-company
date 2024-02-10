@@ -2,11 +2,11 @@ function showAvailableServices(services){
   let servicesContainer = document.getElementById('services-container');
   let servicesContainerTitle = document.getElementById('container-title');
   servicesContainer.innerHTML = '';
-  servicesContainerTitle.innerText = 'Available Services'
+  servicesContainerTitle.innerText = 'Available Services';
   services.map((element)=>{
     if(!element.isConsumed){
       let card = createServiceCard(element,'Book Service');
-      servicesContainer.appendChild(card)
+      servicesContainer.appendChild(card);
     }
   })
 }
@@ -20,16 +20,22 @@ function createServiceCard(service,btnText){
 
   const title = document.createElement('h2')
   title.classList.add('service-title');
-  card.classList.add('card-title');
+  title.classList.add('card-title');
   title.textContent = service.name;
   
   const description = document.createElement('h4');
   description.classList.add('service-description');
-  card.classList.add('card-text');
+  description.classList.add('card-text');
   description.textContent = service.description;
+
+  const category = document.createElement('h5');
+  category.classList.add('service-category');
+  category.classList.add('card-text');
+  category.textContent = `Category: ${service.category}`;
   
   const cost = document.createElement('h4');
   cost.classList.add('service-cost');
+  cost.classList.add('card-text');
   cost.textContent = service.cost;
 
   const bookServiceButton = document.createElement('button')
@@ -44,6 +50,7 @@ function createServiceCard(service,btnText){
 
   card.appendChild(title);
   card.appendChild(description);
+  card.appendChild(category);
   card.appendChild(cost);
   card.appendChild(bookServiceButton);
   return card;
@@ -60,6 +67,12 @@ function handleBookService(e){
     const requestedServiceId = parseInt(e.target.id);
     const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
 
+    // check if user have more than 3 services booked or requested
+    if(userObj.requestedServices.length >= 3 || userObj.activeServices.length >= 3){
+      alert('You have booked maximum of 3 services, try again after completion of previous service');
+      return;
+    }
+
     // Add the new requested service to the list
     requestedServices.push({
       requestedBy: userObj.id,
@@ -72,6 +85,7 @@ function handleBookService(e){
     // Update the requestedServices field in the userObj
     userObj.requestedServices.push(requestedServiceId);
 
+    // update main users array
     const updatedUsers = users.map(user => {
       if (user.id === userObj.id) {
         user.requestedServices.push(requestedServiceId);
@@ -95,74 +109,77 @@ function handleBookService(e){
   }
 }
 
-function handleAcceptRequest(e){
+function handleAcceptRequest(e) {
   const loggedIn = isUserLoggedIn();
-  if(!loggedIn){
-    alert('you are not loggedIn')
-  }else{
-    // console.log(e,"I accepted")
-    let requestedServiceId = parseInt(e.target.id)
-    // console.log(e,"I accepted id" , requestedServiceId)
+  if (!loggedIn) {
+    alert('you are not loggedIn');
+  } else {
+    let requestedServiceId = parseInt(e.target.id);
     const services = JSON.parse(localStorage.getItem('services')) || [];
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-    const requestedServices  = JSON.parse(localStorage.getItem('requestedServices')) || [];
+    const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
 
-    // update requested service array in local storage
-    const updatedRequestedServicesObj = requestedServices.filter((e)=>{
+    if (userObj.acceptedServices.length >= 3) {
+      alert('You have accepted a maximum of 3 services, try again after completion of a previous service');
+      return;
+    }
+
+    // Update requested service array in local storage
+    const updatedRequestedServicesObj = requestedServices.filter((e) => {
       return e.requestedService != requestedServiceId;
-    })
-    // update activeService and requested service for user users array
+    });
+
+    // Update activeService and requested service for user users array
     let requestedUser = [];
     requestedUser = users.filter((user) => {
       return requestedServices.some((requestedService) => {
         return requestedService.requestedBy === user.id;
       });
     });
-    let updatedUsersArray = users.map((user)=>{
-      if(requestedUser.length != 0){
-        if(user.id == requestedUser[0].id){
-          user.requestedServices = user.requestedServices.filter((e)=> {
-            e != requestedServiceId
-          })
+
+    let updatedUsersArray = users.map((user) => {
+      if (requestedUser.length !== 0) {
+        if (user.id === requestedUser[0].id) {
+          user.requestedServices = user.requestedServices.filter((serviceId) => serviceId !== requestedServiceId);
           user.activeServices.push(requestedServiceId);
         }
         return user;
       }
-    })
+    });
 
-    // update acceptedService for serviceProvider in userObj and users array
-    const serviceProviderObj = users.filter((e)=>{
-      return e.id == userObj.id;
-    })
-    updatedUsersArray = users.map((user)=>{
-      console.log("do match", user.id , serviceProviderObj[0].id)
-        if(user.id == serviceProviderObj[0].id){
-          user.acceptedServices.push(requestedServiceId);
-          userObj.acceptedServices.push(requestedServiceId)
-        }
-        return user;
-    })
-    console.log("me provides", updatedUsersArray);
-    console.log("me provides", userObj);
+    // Update acceptedService for serviceProvider in userObj and users array
+    const serviceProviderObj = users.filter((e) => {
+      return e.id === userObj.id;
+    });
 
-    // update service consumed in services array
-    services.map((service)=>{
-      if(service.serviceId == requestedServiceId){
+    updatedUsersArray = users.map((user) => {
+      if (user.id === serviceProviderObj[0].id) {
+        user.acceptedServices.push(requestedServiceId);
+        userObj.acceptedServices.push(requestedServiceId);
+      }
+      return user;
+    });
+
+    // Update service consumed in services array
+    services.map((service) => {
+      if (service.serviceId === requestedServiceId) {
         service.isConsumed = true;
       }
-    })
+    });
 
-    // call show requested service function
-    showRequestedServices(services,updatedRequestedServicesObj);
+    // Save userObj, users, services, requested services to local storage
+    localStorage.setItem('users', JSON.stringify(updatedUsersArray));
+    localStorage.setItem('userObj', JSON.stringify(userObj));
+    localStorage.setItem('services', JSON.stringify(services));
+    localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
+    alert('Service accepted');
 
-    // save userObj, users, services, requested services to local storage
-    localStorage.setItem('users',JSON.stringify(updatedUsersArray))
-    localStorage.setItem('userObj',JSON.stringify(userObj))
-    localStorage.setItem('services',JSON.stringify(services))
-    localStorage.setItem('requestedServices',JSON.stringify(updatedRequestedServicesObj));
+    // Call show requested service function
+    showRequestedServices(services, updatedRequestedServicesObj);
   }
 }
+
 
 function isUserLoggedIn(){
   const userLoggedIn = localStorage.getItem('userLoggedIn');
@@ -259,7 +276,6 @@ function showRequestedServices(services,requestedServices){
   let requestedServicesObj = services.filter((e)=>{
     return requestedServicesArray.includes(e.serviceId) && e.category == userObj.serviceProviderCategory;
   })
-  console.log("checking lll", requestedServicesObj)
   if(requestedServicesObj.length == 0){
     noServiceRequested();
     servicesContainerTitle.innerText = 'Requested Services'
