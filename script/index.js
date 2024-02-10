@@ -36,7 +36,7 @@ function createServiceCard(service,btnText){
   const cost = document.createElement('h4');
   cost.classList.add('service-cost');
   cost.classList.add('card-text');
-  cost.textContent = service.cost;
+  cost.textContent =` Cost: ₹${service.cost}`;
 
   const bookServiceButton = document.createElement('button')
   bookServiceButton.id = service.serviceId
