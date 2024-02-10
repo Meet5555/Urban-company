@@ -46,7 +46,7 @@ function createServiceCard(service){
   card.appendChild(description);
   card.appendChild(category);
   card.appendChild(cost);
-  card.appendChild(bookServiceButton);
+  card.appendChild(cancelServiceButton);
   return card;
 }
 
