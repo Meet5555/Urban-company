@@ -36,7 +36,8 @@ function registerUser(username,password){
     "name" : username,
     "password" : password,
     "isAdmin" : false,
-    "activeServices": []
+    "activeServices": [],
+    "requestedServices": []
   }
   users.push(newUser)
   localStorage.setItem('users',JSON.stringify(users));

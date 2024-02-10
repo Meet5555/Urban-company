@@ -64,12 +64,11 @@
           acceptedServicesBtn.style.display = 'none';
         }else if(userLoggedIn == 'true'){
           if(userObj.isServiceProvider == true){
-            console.log("Me band")
             requestedServicesBtn.style.display = 'none';
             activeServicesBtn.style.display = 'none';
             acceptedServicesBtn.style.display = 'block';
           }else if(userObj.isAdmin == true){
-
+            window.location.href = '/pages/users.html'
           }else{
             requestedServicesBtn.style.display = 'block';
             activeServicesBtn.style.display = 'block';

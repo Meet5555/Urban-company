@@ -111,75 +111,64 @@ function handleBookService(e){
 
 function handleAcceptRequest(e) {
   const loggedIn = isUserLoggedIn();
+
   if (!loggedIn) {
-    alert('you are not loggedIn');
-  } else {
-    let requestedServiceId = parseInt(e.target.id);
-    const services = JSON.parse(localStorage.getItem('services')) || [];
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-    const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
-
-    if (userObj.acceptedServices.length >= 3) {
-      alert('You have accepted a maximum of 3 services, try again after completion of a previous service');
-      return;
-    }
-
-    // Update requested service array in local storage
-    const updatedRequestedServicesObj = requestedServices.filter((e) => {
-      return e.requestedService != requestedServiceId;
-    });
-
-    // Update activeService and requested service for user users array
-    let requestedUser = [];
-    requestedUser = users.filter((user) => {
-      return requestedServices.some((requestedService) => {
-        return requestedService.requestedBy === user.id;
-      });
-    });
-
-    let updatedUsersArray = users.map((user) => {
-      if (requestedUser.length !== 0) {
-        if (user.id === requestedUser[0].id) {
-          user.requestedServices = user.requestedServices.filter((serviceId) => serviceId !== requestedServiceId);
-          user.activeServices.push(requestedServiceId);
-        }
-        return user;
-      }
-    });
-
-    // Update acceptedService for serviceProvider in userObj and users array
-    const serviceProviderObj = users.filter((e) => {
-      return e.id === userObj.id;
-    });
-
-    updatedUsersArray = users.map((user) => {
-      if (user.id === serviceProviderObj[0].id) {
-        user.acceptedServices.push(requestedServiceId);
-        userObj.acceptedServices.push(requestedServiceId);
-      }
-      return user;
-    });
-
-    // Update service consumed in services array
-    services.map((service) => {
-      if (service.serviceId === requestedServiceId) {
-        service.isConsumed = true;
-      }
-    });
-
-    // Save userObj, users, services, requested services to local storage
-    localStorage.setItem('users', JSON.stringify(updatedUsersArray));
-    localStorage.setItem('userObj', JSON.stringify(userObj));
-    localStorage.setItem('services', JSON.stringify(services));
-    localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
-    alert('Service accepted');
-
-    // Call show requested service function
-    showRequestedServices(services, updatedRequestedServicesObj);
+    alert('You are not logged in');
+    return;
   }
-}
 
+  const requestedServiceId = parseInt(e.target.id);
+  const services = JSON.parse(localStorage.getItem('services')) || [];
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
+  const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
+
+  if (userObj.acceptedServices.length >= 3) {
+    alert('You have accepted a maximum of 3 services. Please try again after completing a previous service.');
+    return;
+  }
+
+  // Update requested service array in local storage
+  const updatedRequestedServicesObj = requestedServices.filter((reqService) => reqService.requestedService !== requestedServiceId);
+
+  // Find the user who requested the service
+  const requestedUser = users.find((user) => requestedServices.some((reqService) => reqService.requestedBy === user.id));
+
+  // Update activeService and requested service for the user in the users array
+  const updatedUsersArray = users.map((user) => {
+    if (user.id === requestedUser.id) {
+      user.requestedServices = user.requestedServices.filter((serviceId) => serviceId !== requestedServiceId);
+      user.activeServices.push(requestedServiceId);
+    }
+    return user;
+  });
+
+  // Update acceptedService for serviceProvider in userObj and users array
+  const serviceProviderObj = users.find((user) => user.id === userObj.id);
+
+  if (serviceProviderObj) {
+    serviceProviderObj.acceptedServices.push(requestedServiceId);
+    userObj.acceptedServices.push(requestedServiceId);
+  }
+
+  // Update service consumed in services array
+  services.forEach((service) => {
+    if (service.serviceId === requestedServiceId) {
+      service.isConsumed = true;
+    }
+  });
+
+  // Save userObj, users, services, requested services to local storage
+  localStorage.setItem('users', JSON.stringify(updatedUsersArray));
+  localStorage.setItem('userObj', JSON.stringify(userObj));
+  localStorage.setItem('services', JSON.stringify(services));
+  localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
+  
+  alert('Service accepted');
+
+  // Call show requested service function
+  showRequestedServices(services, updatedRequestedServicesObj);
+}
 
 function isUserLoggedIn(){
   const userLoggedIn = localStorage.getItem('userLoggedIn');
@@ -217,13 +206,13 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
     const requestedServices  = JSON.parse(localStorage.getItem('requestedServices')) || [];
     const servicesContainerTitle = document.getElementById('container-title');
     if(userObj.length != 0){
-      console.log(userObj)
+      // console.log(userObj)
       if(userObj.isServiceProvider == true){
       // console.log("inside provider")
         if(!requestedServices || requestedServices.length === 0){
           // console.log("No req")
           noServiceRequested();
-          servicesContainerTitle.innerText = 'Requested Services'
+          servicesContainerTitle.innerText = 'Available Requests for Service'
         }else{
           // console.log("yes req")
           // console.log(requestedServices)
@@ -257,12 +246,12 @@ function showRequestedServices(services,requestedServices){
   })
   if(requestedServicesObj.length == 0){
     noServiceRequested();
-    servicesContainerTitle.innerText = 'Requested Services'
+    servicesContainerTitle.innerText = 'Available Requests for Service'
   }else{
     // console.log("reqArr" ,requestedServicesArray)
     // console.log("reqObj" ,requestedServicesObj)
     servicesContainer.innerHTML = '';
-    servicesContainerTitle.innerText = 'Requested Services'
+    servicesContainerTitle.innerText = 'Available Requests for Service'
     // console.log("after",requestedServicesObj)
     requestedServicesObj.map((element)=>{
         let card = createServiceCard(element,'Accept');

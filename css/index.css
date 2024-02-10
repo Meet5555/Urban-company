@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-#services-container{
+#services-container, #users-container{
   background: #333;
   padding: 10px;
   color: white;
@@ -13,7 +13,7 @@
   justify-content: space-around;
 }
 
-#services-container .service-card{
+#services-container .service-card, #users-container .user-card{
   flex-basis: 30%;
   color: black;
 }
