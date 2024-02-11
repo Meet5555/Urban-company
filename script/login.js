@@ -65,7 +65,7 @@ loginForm.addEventListener("submit", function (event) {
       position: "center",
       stopOnFocus: true,
       style: {
-        background: "rgb(255, 232, 36)",
+        background: "rgb(255, 202, 44)",
       }
     }).showToast();
     resetForm();

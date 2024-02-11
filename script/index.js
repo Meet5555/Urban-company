@@ -68,7 +68,7 @@ function handleBookService(e) {
       position: "center",
       stopOnFocus: true,
       style: {
-        background: "rgb(231, 208, 0)",
+        background: "rgb(255, 202, 44)",
       },
       onClick: function(){
         window.location.href = '/pages/login.html'
@@ -93,7 +93,7 @@ function handleBookService(e) {
         position: "center",
         stopOnFocus: true,
         style: {
-          background: "rgb(231, 208, 0)",
+          background: "rgb(255, 202, 44)",
         }
       }).showToast();
       return;
@@ -184,7 +184,7 @@ function handleAcceptRequest(e) {
       position: "center",
       stopOnFocus: true,
       style: {
-        background: "rgb(255, 232, 36)",
+        background: "rgb(255, 202, 44)",
       }
     }).showToast();
     return;

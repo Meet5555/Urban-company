@@ -1,27 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Roboto&display=swap');
-*{
+
+:root {
+  --primary-color: #007bff;
+  --danger-color: #9d0303;
+  --navbar-bg: rgb(66, 68, 70);
+  --body-bg: #f8f9fa;
+  --card-border: #e5e5e5;
+  --card-text-color: #555;
+  --card-title-size: 1.5rem;
+  --card-text-size: 1.3rem;
+  --card-category-size: 1.1rem;
+  --card-cost-color: #444;
+  --btn-border-radius: 5px;
+  --box-shadow: 0px 2px 14px rgba(0, 0, 0, 0.3);
+  --btn-primary-hover: #0056b3;
+  --btn-danger-hover: #9d0303;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.navbar{
+.navbar {
   position: sticky !important;
   top: 0;
   z-index: 100;
   padding: 1rem 3rem !important;
-  box-shadow: 0px 2px 14px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: var(--box-shadow) !important;
   font-family: 'Poppins', sans-serif !important;
+  background-color: var(--navbar-bg) !important;
 }
 
-.nav-link, .navbar-brand{
+.nav-link,
+.navbar-brand {
   font-weight: 500 !important;
+  color: #fff !important;
 }
 
-.nav-link.active{
+.nav-link.active {
   position: relative;
 }
-.nav-link.active::before{
+
+.nav-link.active::before {
   content: '';
   position: absolute;
   width: 80%;
@@ -34,19 +56,21 @@
 }
 
 @media (max-width: 990px) {
-  .nav-link.active::before{
+  .nav-link.active::before {
     width: 10%;
     left: 0;
     transform: translateX(0%);
   }
 }
-.container{
+
+.container {
   margin-top: 2rem !important;
   padding: 1rem !important;
 }
 
-#services-container, #users-container{
-  background: #333;
+#services-container,
+#users-container {
+  background: var(--navbar-bg) !important;
   padding: 20px 10px;
   color: white;
   margin: auto;
@@ -57,13 +81,37 @@
   font-family: 'Roboto', sans-serif;
 }
 
-#services-container .service-card, #users-container .user-card{
+#services-container .service-card,
+#users-container .user-card {
   flex-basis: 30%;
   color: black;
 }
 
-.card, .user-card {
-  border: 1px solid #e5e5e5;
+.admin-title {
+  background-color: var(--navbar-bg);
+  color: #fff;
+  width: max(330px, 30%);
+  margin: auto;
+  padding: 0.6rem 2rem;
+  border-radius: 8px;
+}
+
+.admin-subtitle {
+  margin: 2rem auto 1rem;
+  color: #333;
+}
+
+.row.admin-subtitle {
+  font-size: 18px;
+  font-size: calc(1.3rem + .6vw);
+  color: #333;
+  font-weight: 600;
+  margin: 0.2rem auto -2rem !important;
+}
+
+.card,
+.user-card {
+  border: 1px solid var(--card-border);
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
@@ -72,42 +120,49 @@
   position: relative;
 }
 
-.card-title, .user-card-title {
-  font-size: 1.5rem;
+.card-title,
+.user-card-title {
+  font-size: var(--card-title-size);
   margin-bottom: 10px;
 }
 
-.card-text, .user-card-text {
-  color: #555;
-  font-size: 1.3rem;
+.card-text,
+.user-card-text {
+  color: var(--card-text-color);
+  font-size: var(--card-text-size);
   margin-bottom: 15px;
 }
 
 .card-text.service-category {
-  font-size: 1.1rem;
+  font-size: var(--card-category-size);
 }
 
-.card-body .card-text{
+.card-body .card-text {
   font-size: 1.2rem;
   margin-bottom: 3px !important;
 }
 
 .card-text.service-cost {
   font-size: 1.2rem;
-  color: #444;
+  color: var(--card-cost-color);
 }
 
-.card-text.admin-service-accepted-by-info, .card-text.admin-service-consumption-info, .card-text.admin-service-category{
+.card-text.admin-service-accepted-by-info,
+.card-text.admin-service-consumption-info,
+.card-text.admin-service-category {
   margin-bottom: 5px !important;
 }
-.card-text.admin-service-cost{
+
+.card-text.admin-service-cost {
   font-size: 1.2rem;
-  color: #444;
+  color: var(--card-cost-color);
   margin-bottom: 25px !important;
 }
-.card .btn, .user-card .btn {
+
+.card .btn,
+.user-card .btn {
   border: none;
-  border-radius: 5px;
+  border-radius: var(--btn-border-radius);
   padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
@@ -119,14 +174,17 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.card .btn.delete-requested-service-btn {
-  width: 45%;
+.card .btn.delete-requested-service-btn,
+.card .btn.delete-user-btn {
+  width: 40%;
   left: 10px;
   transform: translateX(0);
+  margin-left: 20px;
 }
 
-.card .btn.complete-service-btn {
-  width: 45%;
+.card .btn.complete-service-btn,
+.card .btn.update-user-btn {
+  width: 40%;
   right: 10px;
   transform: translateX(0);
 }
@@ -138,17 +196,17 @@
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: var(--btn-primary-hover);
 }
 
 .btn-danger:hover {
-  background-color: #9d0303;
+  background-color: var(--btn-danger-hover);
 }
 
 .customForm {
   width: 100%;
   margin: 2rem auto;
-  background-color: #f8f9fa;
+  background-color: var(--body-bg);
   border: 1px solid #d3d3d3;
   border-radius: 10px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
@@ -156,7 +214,7 @@
 }
 
 .customForm h2 {
-  color: #007bff;
+  color: var(--primary-color);
   text-align: center;
 }
 
@@ -170,7 +228,7 @@
 }
 
 .customForm .btn-primary {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -178,5 +236,5 @@
 }
 
 .customForm .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: var(--btn-primary-hover);
 }
