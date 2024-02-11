@@ -29,12 +29,12 @@ loginForm.addEventListener("submit", function (event) {
       localStorage.setItem("userObj", JSON.stringify(user));
       window.location.href = "/index.html";
     } else {
-      alert("Invalid password. Please try again.");
+      alert("Invalid Credentials. Please try again.");
       resetForm();
       return;
     }
   } else {
-    alert("Invalid username. Please try again.");
+    alert("User not Found, Register First.");
     resetForm();
     return;
   }

@@ -1,51 +1,51 @@
-function showAvailableServices(services){
-  let servicesContainer = document.getElementById('services-container');
-  let servicesContainerTitle = document.getElementById('container-title');
-  servicesContainer.innerHTML = '';
-  servicesContainerTitle.innerText = 'Available Services';
-  services.map((element)=>{
-    if(!element.isConsumed){
-      let card = createServiceCard(element,'Book Service');
+function showAvailableServices(services) {
+  let servicesContainer = document.getElementById("services-container");
+  let servicesContainerTitle = document.getElementById("container-title");
+  servicesContainer.innerHTML = "";
+  servicesContainerTitle.innerText = "Available Services";
+  services.map((element) => {
+    if (!element.isConsumed) {
+      let card = createServiceCard(element, "Book Service");
       servicesContainer.appendChild(card);
     }
-  })
+  });
 }
 
-function createServiceCard(service,btnText){
+function createServiceCard(service, btnText) {
   // console.log("inside create card", service)
-  const card = document.createElement('div');
-  card.classList.add('service-card');
-  card.classList.add('card');
-  card.classList.add('col-3');
+  const card = document.createElement("div");
+  card.classList.add("service-card");
+  card.classList.add("card");
+  card.classList.add("col-3");
 
-  const title = document.createElement('h2')
-  title.classList.add('service-title');
-  title.classList.add('card-title');
+  const title = document.createElement("h2");
+  title.classList.add("service-title");
+  title.classList.add("card-title");
   title.textContent = service.name;
-  
-  const description = document.createElement('h4');
-  description.classList.add('service-description');
-  description.classList.add('card-text');
+
+  const description = document.createElement("h4");
+  description.classList.add("service-description");
+  description.classList.add("card-text");
   description.textContent = service.description;
 
-  const category = document.createElement('h5');
-  category.classList.add('service-category');
-  category.classList.add('card-text');
+  const category = document.createElement("h5");
+  category.classList.add("service-category");
+  category.classList.add("card-text");
   category.textContent = `Category: ${service.category}`;
-  
-  const cost = document.createElement('h4');
-  cost.classList.add('service-cost');
-  cost.classList.add('card-text');
+
+  const cost = document.createElement("h4");
+  cost.classList.add("service-cost");
+  cost.classList.add("card-text");
   cost.textContent = service.cost;
 
-  const bookServiceButton = document.createElement('button')
-  bookServiceButton.id = service.serviceId
-  bookServiceButton.classList.add('book-service');
-  bookServiceButton.classList.add('btn');
-  bookServiceButton.classList.add('btn-primary');
+  const bookServiceButton = document.createElement("button");
+  bookServiceButton.id = service.serviceId;
+  bookServiceButton.classList.add("book-service");
+  bookServiceButton.classList.add("btn");
+  bookServiceButton.classList.add("btn-primary");
   bookServiceButton.textContent = btnText;
-  bookServiceButton.addEventListener('click',(e)=>{
-    btnText.includes('Book') ? handleBookService(e) : handleAcceptRequest(e)
+  bookServiceButton.addEventListener("click", (e) => {
+    btnText.includes("Book") ? handleBookService(e) : handleAcceptRequest(e);
   });
 
   card.appendChild(title);
@@ -56,20 +56,26 @@ function createServiceCard(service,btnText){
   return card;
 }
 
-function handleBookService(e){
+function handleBookService(e) {
   const loggedIn = isUserLoggedIn();
-  if(!loggedIn){
-    alert('You are not logged in');
+  if (!loggedIn) {
+    alert("You are not logged in");
   } else {
-    const userObj = JSON.parse(localStorage.getItem('userObj'));
-    const users = JSON.parse(localStorage.getItem('users'));
-    const services = JSON.parse(localStorage.getItem('services'));
+    const userObj = JSON.parse(localStorage.getItem("userObj"));
+    const users = JSON.parse(localStorage.getItem("users"));
+    const services = JSON.parse(localStorage.getItem("services"));
     const requestedServiceId = parseInt(e.target.id);
-    const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
+    const requestedServices =
+      JSON.parse(localStorage.getItem("requestedServices")) || [];
 
     // check if user have more than 3 services booked or requested
-    if(userObj.requestedServices.length >= 3 || userObj.activeServices.length >= 3){
-      alert('You have booked maximum of 3 services, try again after completion of previous service');
+    if (
+      userObj.requestedServices.length >= 3 ||
+      userObj.activeServices.length >= 3
+    ) {
+      alert(
+        "You have booked maximum of 3 services, try again after completion of previous service"
+      );
       return;
     }
 
@@ -80,48 +86,54 @@ function handleBookService(e){
     });
 
     // Update the local storage with the new requested services
-    localStorage.setItem('requestedServices', JSON.stringify(requestedServices));
+    localStorage.setItem(
+      "requestedServices",
+      JSON.stringify(requestedServices)
+    );
 
     // Update the requestedServices field in the userObj
     userObj.requestedServices.push(requestedServiceId);
 
     // update main users array
-    const updatedUsers = users.map(user => {
+    const updatedUsers = users.map((user) => {
       if (user.id === userObj.id) {
         user.requestedServices.push(requestedServiceId);
       }
       return user;
     });
 
-    const updatedServices = services.map(service => {
+    const updatedServices = services.map((service) => {
       if (service.serviceId === requestedServiceId) {
         return { ...service, isConsumed: true };
       }
       return service;
     });
-  
+
     // Update the local storage with the modified userObj
-    localStorage.setItem('userObj', JSON.stringify(userObj));
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
-    localStorage.setItem('services', JSON.stringify(updatedServices));
-    alert('Service Requested')
-    showAvailableServices(updatedServices)
+    localStorage.setItem("userObj", JSON.stringify(userObj));
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    localStorage.setItem("services", JSON.stringify(updatedServices));
+    alert("Service Requested");
+    showAvailableServices(updatedServices);
   }
 }
 
 function handleAcceptRequest(e) {
   const loggedIn = isUserLoggedIn();
   if (!loggedIn) {
-    alert('you are not loggedIn');
+    alert("you are not loggedIn");
   } else {
     let requestedServiceId = parseInt(e.target.id);
-    const services = JSON.parse(localStorage.getItem('services')) || [];
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-    const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
+    const services = JSON.parse(localStorage.getItem("services")) || [];
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
+    const requestedServices =
+      JSON.parse(localStorage.getItem("requestedServices")) || [];
 
     if (userObj.acceptedServices.length >= 3) {
-      alert('You have accepted a maximum of 3 services, try again after completion of a previous service');
+      alert(
+        "You have accepted a maximum of 3 services, try again after completion of a previous service"
+      );
       return;
     }
 
@@ -141,7 +153,9 @@ function handleAcceptRequest(e) {
     let updatedUsersArray = users.map((user) => {
       if (requestedUser.length !== 0) {
         if (user.id === requestedUser[0].id) {
-          user.requestedServices = user.requestedServices.filter((serviceId) => serviceId !== requestedServiceId);
+          user.requestedServices = user.requestedServices.filter(
+            (serviceId) => serviceId !== requestedServiceId
+          );
           user.activeServices.push(requestedServiceId);
         }
         return user;
@@ -169,42 +183,44 @@ function handleAcceptRequest(e) {
     });
 
     // Save userObj, users, services, requested services to local storage
-    localStorage.setItem('users', JSON.stringify(updatedUsersArray));
-    localStorage.setItem('userObj', JSON.stringify(userObj));
-    localStorage.setItem('services', JSON.stringify(services));
-    localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
-    alert('Service accepted');
+    localStorage.setItem("users", JSON.stringify(updatedUsersArray));
+    localStorage.setItem("userObj", JSON.stringify(userObj));
+    localStorage.setItem("services", JSON.stringify(services));
+    localStorage.setItem(
+      "requestedServices",
+      JSON.stringify(updatedRequestedServicesObj)
+    );
+    alert("Service accepted");
 
     // Call show requested service function
     showRequestedServices(services, updatedRequestedServicesObj);
   }
 }
 
-
-function isUserLoggedIn(){
-  const userLoggedIn = localStorage.getItem('userLoggedIn');
-  return userLoggedIn === 'true' ? true : false;
+function isUserLoggedIn() {
+  const userLoggedIn = localStorage.getItem("userLoggedIn");
+  return userLoggedIn === "true" ? true : false;
 }
 
-document.addEventListener('DOMContentLoaded',async (e)=>{
-  const services = JSON.parse(localStorage.getItem('services')) || [];
-  const users = JSON.parse(localStorage.getItem('users')) || [];
+document.addEventListener("DOMContentLoaded", async (e) => {
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+  const users = JSON.parse(localStorage.getItem("users")) || [];
   const loginBtn = document.getElementById("login-btn");
   const signUpBtn = document.getElementById("sign-up-btn");
   const logoutBtn = document.getElementById("logout-btn");
   const userLoggedIn = localStorage.getItem("userLoggedIn") || false;
-  
-  if(services.length === 0){
+
+  if (services.length === 0) {
     const services = await fetchServices();
-    localStorage.setItem('services',JSON.stringify(services));
+    localStorage.setItem("services", JSON.stringify(services));
     showAvailableServices(services);
-  }else{
+  } else {
     showAvailableServices(services);
   }
 
-  if(users.length === 0){
+  if (users.length === 0) {
     const users = await fetchUsers();
-    localStorage.setItem('users',JSON.stringify(users));
+    localStorage.setItem("users", JSON.stringify(users));
   }
 
   if (userLoggedIn === "true") {
@@ -213,21 +229,22 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
     signUpBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
 
-    const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-    const requestedServices  = JSON.parse(localStorage.getItem('requestedServices')) || [];
-    const servicesContainerTitle = document.getElementById('container-title');
-    if(userObj.length != 0){
-      console.log(userObj)
-      if(userObj.isServiceProvider == true){
-      // console.log("inside provider")
-        if(!requestedServices || requestedServices.length === 0){
+    const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
+    const requestedServices =
+      JSON.parse(localStorage.getItem("requestedServices")) || [];
+    const servicesContainerTitle = document.getElementById("container-title");
+    if (userObj.length != 0) {
+      console.log(userObj);
+      if (userObj.isServiceProvider == true) {
+        // console.log("inside provider")
+        if (!requestedServices || requestedServices.length === 0) {
           // console.log("No req")
           noServiceRequested();
-          servicesContainerTitle.innerText = 'Requested Services'
-        }else{
+          servicesContainerTitle.innerText = "Requested Services";
+        } else {
           // console.log("yes req")
           // console.log(requestedServices)
-          showRequestedServices(services,requestedServices);
+          showRequestedServices(services, requestedServices);
         }
       }
     }
@@ -246,70 +263,156 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
     window.location.href = "/pages/login.html";
   });
 
-  const searchForm = document.querySelector('.form-inline');
-  searchForm.addEventListener('submit', function (e) { //remove search button, and form, use only input
+  const searchForm = document.querySelector(".form-inline");
+  searchForm.addEventListener("submit", function (e) {
+    //remove search button, and form, use only input
     e.preventDefault();
-    const searchInput = document.querySelector('.form-control').value.toLowerCase();
+    const searchInput = document
+      .querySelector(".form-control")
+      .value.toLowerCase();
     performSearch(searchInput, services);
   });
-})
+
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", function (e) {
+    // Trigger search on input change
+    const query = e.target.value.toLowerCase();
+    performSearch(query, services);
+  });
+});
 
 function performSearch(query, services) {
-  const filteredServices = services.filter(service => {
-    return service.name.toLowerCase().includes(query) || service.description.toLowerCase().includes(query);
+  const filteredServices = services.filter((service) => {
+    return (
+      service.name.toLowerCase().includes(query) ||
+      service.description.toLowerCase().includes(query)
+    );
   });
 
   if (filteredServices.length === 0) {
     // Handle case when no results are found
-    alert('No matching services found.');
+    alert("No matching services found.");
   } else {
     // Display the filtered services
     showAvailableServices(filteredServices);
   }
 }
 
-function showRequestedServices(services,requestedServices){
-  let servicesContainer = document.getElementById('services-container');
-  let requestedServicesArray = requestedServices.map((e)=>e.requestedService);
-  let servicesContainerTitle = document.getElementById('container-title');
-  const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-  let requestedServicesObj = services.filter((e)=>{
-    return requestedServicesArray.includes(e.serviceId) && e.category == userObj.serviceProviderCategory;
-  })
-  if(requestedServicesObj.length == 0){
+function showRequestedServices(services, requestedServices) {
+  let servicesContainer = document.getElementById("services-container");
+  let requestedServicesArray = requestedServices.map((e) => e.requestedService);
+  let servicesContainerTitle = document.getElementById("container-title");
+  const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
+  let requestedServicesObj = services.filter((e) => {
+    return (
+      requestedServicesArray.includes(e.serviceId) &&
+      e.category == userObj.serviceProviderCategory
+    );
+  });
+  if (requestedServicesObj.length == 0) {
     noServiceRequested();
-    servicesContainerTitle.innerText = 'Requested Services'
-  }else{
+    servicesContainerTitle.innerText = "Requested Services";
+  } else {
     // console.log("reqArr" ,requestedServicesArray)
     // console.log("reqObj" ,requestedServicesObj)
-    servicesContainer.innerHTML = '';
-    servicesContainerTitle.innerText = 'Requested Services'
+    servicesContainer.innerHTML = "";
+    servicesContainerTitle.innerText = "Requested Services";
     // console.log("after",requestedServicesObj)
-    requestedServicesObj.map((element)=>{
-        let card = createServiceCard(element,'Accept');
-        servicesContainer.append(card);
-    })
+    requestedServicesObj.map((element) => {
+      let card = createServiceCard(element, "Accept");
+      servicesContainer.append(card);
+    });
   }
 }
 
-function noServiceRequested(){
-  let servicesContainer = document.getElementById('services-container');
-  const card = document.createElement('h3');
-  card.classList.add('service-card');
-  card.classList.add('card');
-  card.innerHTML = "No service requested"
-  servicesContainer.innerHTML = ''
+function noServiceRequested() {
+  let servicesContainer = document.getElementById("services-container");
+  const card = document.createElement("h3");
+  card.classList.add("service-card");
+  card.classList.add("card");
+  card.innerHTML = "No service requested";
+  servicesContainer.innerHTML = "";
   servicesContainer.append(card);
 }
 
-async function fetchServices(){
-  const res = await fetch('../data/services.json');
-  const data = await res.json()
+async function fetchServices() {
+  const res = await fetch("../data/services.json");
+  const data = await res.json();
   return data;
 }
 
-async function fetchUsers(){
-  const res = await fetch('../data/users.json');
-  const data = await res.json()
+async function fetchUsers() {
+  const res = await fetch("../data/users.json");
+  const data = await res.json();
   return data;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const sortButton = document.getElementById("sortButton");
+  const filterButton = document.getElementById("filterButton");
+
+
+  sortButton.addEventListener("click", function () {
+    const sortOptions = document.getElementById("sortOptions");
+    const dropdownInstance = new bootstrap.Dropdown(sortButton);
+    dropdownInstance.toggle();
+  });
+
+  filterButton.addEventListener("click", function () {
+    const filterOptions = document.getElementById("filterOptions");
+    const dropdownInstance = new bootstrap.Dropdown(filterButton);
+    dropdownInstance.toggle();
+  });
+
+  const filterOptions = document.getElementById("filterOptions");
+  filterOptions.addEventListener("click", function (e) {
+    const selectedCategory = e.target.dataset.category;
+    if (selectedCategory) {
+      handleFilter(selectedCategory);
+    }
+  });
+});
+
+//SORTING FUNCTIONALITY WORKING HERE - Vaideek
+function sortServices(order) {
+  // Assuming our services data is stored in a variable called 'services'
+  let services = JSON.parse(localStorage.getItem("services")) || [];
+
+  switch (order) {
+    case 'lowToHigh':
+      services.sort((a, b) => parseFloat(a.cost) - parseFloat(b.cost));
+      break;
+    case 'highToLow':
+      services.sort((a, b) => parseFloat(b.cost) - parseFloat(a.cost));
+      break;
+
+    default:
+      // Default sorting (you can customize this based on your needs)
+      services.sort((a, b) => a.serviceId - b.serviceId);
+      break;
+  }
+
+  // Update the local storage with the sorted services
+  localStorage.setItem("services", JSON.stringify(services));
+
+  // Call a function to update the UI with the sorted services
+  showAvailableServices(services);
+}
+
+
+// Filtering Functionality from here - Vaideek
+function handleFilter(category) {
+  // Fetch services from localStorage
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+
+  if (category === "All") {
+    // If "All" is selected, show all services
+    showAvailableServices(services);
+  } else {
+    // Filter services based on the selected category
+    const filteredServices = services.filter((service) => service.category === category);
+
+    // Update the UI with the filtered services
+    showAvailableServices(filteredServices);
+  }
 }
