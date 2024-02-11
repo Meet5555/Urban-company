@@ -68,7 +68,7 @@ function handleBookService(e) {
       position: "center",
       stopOnFocus: true,
       style: {
-        background: "rgb(231, 208, 0)",
+        background: "rgb(255, 202, 44)",
       },
       onClick: function(){
         window.location.href = '/pages/login.html'
@@ -93,7 +93,7 @@ function handleBookService(e) {
         position: "center",
         stopOnFocus: true,
         style: {
-          background: "rgb(231, 208, 0)",
+          background: "rgb(255, 202, 44)",
         }
       }).showToast();
       return;
@@ -184,7 +184,7 @@ function handleAcceptRequest(e) {
       position: "center",
       stopOnFocus: true,
       style: {
-        background: "rgb(255, 232, 36)",
+        background: "rgb(255, 202, 44)",
       }
     }).showToast();
     return;
@@ -194,7 +194,7 @@ function handleAcceptRequest(e) {
   const updatedRequestedServicesObj = requestedServices.filter((reqService) => reqService.requestedService !== requestedServiceId);
 
   // Find the user who requested the service
-  const requestedUser = users.find((user) => requestedServices.some((reqService) => reqService.requestedBy === user.id));
+  const requestedUser = users.find((user) => requestedServices.some((reqService) => reqService.requestedBy === user.id  && reqService.requestedService === requestedServiceId));
 
   // Update activeService and requested service for the user in the users array
   const updatedUsersArray = users.map((user) => {
