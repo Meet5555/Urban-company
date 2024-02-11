@@ -291,3 +291,19 @@
   background-color: #fff; /* Change to your desired color */
   border-top: 1px solid var(--card-border);
 }
+
+.options-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#searchInput{
+  outline: none !important;
+  border: 2px solid var(--primary-color);
+  margin-right: 10px;
+}
+
+.sort-option{
+  margin-right: 5px;
+}
