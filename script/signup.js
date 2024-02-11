@@ -5,7 +5,18 @@ signUpForm.addEventListener('submit',(e)=>{
   let password = document.getElementById('password').value;
   
   if(username.toString().trim().length == 0 || password.toString().trim().length == 0){
-    alert('must enter username and password');
+    // alert('must enter username and password');
+    Toastify({
+      text: "Please enter both username and password",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(252, 90, 90)",
+      }
+    }).showToast();
     resetForm();
     return;
   }
@@ -19,7 +30,18 @@ signUpForm.addEventListener('submit',(e)=>{
       return user.name == username;
     });
     if(userExists){
-      alert('username already exists');
+      // alert('username already exists');
+      Toastify({
+        text: "Username already exists",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+          background: "rgb(252, 90, 90)",
+        }
+      }).showToast();
       resetForm();
       return;
     }else{
@@ -36,14 +58,31 @@ function registerUser(username,password){
     "name" : username,
     "password" : password,
     "isAdmin" : false,
-    "activeServices": []
+    "activeServices": [],
+    "requestedServices": []
   }
   users.push(newUser)
   localStorage.setItem('users',JSON.stringify(users));
   // login user by default
   localStorage.setItem('userLoggedIn','true');
   localStorage.setItem('userObj',JSON.stringify(newUser));
-  window.location.href = '/index.html'
+  Toastify({
+    text: "Registration Successful",
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    style: {
+      background: "rgb(12, 188, 12)",
+    },
+    onClick: function(){
+      window.location.href = '/index.html'
+    }
+  }).showToast();
+  setTimeout(() => {
+    window.location.href = '/index.html';
+  }, 2000);
 }
 
 function resetForm(){

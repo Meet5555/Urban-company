@@ -1,19 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Roboto&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-#services-container{
-  background: #333;
-  padding: 10px;
-  color: white;
-  margin: auto;
-  gap: 10px;
-  justify-content: space-around;
+.navbar{
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 3rem !important;
+  box-shadow: 0px 2px 14px rgba(0, 0, 0, 0.3) !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
-#services-container .service-card{
+.nav-link, .navbar-brand{
+  font-weight: 500 !important;
+}
+
+.nav-link.active{
+  position: relative;
+}
+.nav-link.active::before{
+  content: '';
+  position: absolute;
+  width: 80%;
+  margin: 0 auto;
+  height: 2px;
+  background-color: limegreen;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 5px;
+}
+
+.container{
+  margin-top: 2rem !important;
+  padding: 1rem !important;
+}
+
+#services-container, #users-container{
+  background: #333;
+  padding: 20px 10px;
+  color: white;
+  margin: auto;
+  gap: 30px 10px;
+  justify-content: space-around;
+  margin-top: 1rem;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+}
+
+#services-container .service-card, #users-container .user-card{
   flex-basis: 30%;
   color: black;
+}
+
+.card, .user-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  padding: 10px 15px;
+  padding-bottom: 3rem;
+  position: relative;
+}
+
+.card-title, .user-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card-text, .user-card-text {
+  color: #555;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.card-text.service-category {
+  font-size: 1.1rem;
+}
+
+.card-body .card-text{
+  font-size: 1.2rem;
+  margin-bottom: 3px !important;
+}
+
+.card-text.service-cost {
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.card-text.admin-service-accepted-by-info, .card-text.admin-service-consumption-info, .card-text.admin-service-category{
+  margin-bottom: 5px !important;
+}
+.card-text.admin-service-cost{
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 25px !important;
+}
+.card .btn, .user-card .btn {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  position: absolute;
+  bottom: 10px;
+  width: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Poppins', sans-serif;
+}
+
+.card .btn.delete-requested-service-btn {
+  width: 45%;
+  left: 10px;
+  transform: translateX(0);
+}
+
+.card .btn.complete-service-btn {
+  width: 45%;
+  right: 10px;
+  transform: translateX(0);
+}
+
+.user-card .delete-user-btn {
+  width: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-danger:hover {
+  background-color: #9d0303;
+}
+
+.customForm {
+  width: 100%;
+  margin: 2rem auto;
+  background-color: #f8f9fa;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.customForm h2 {
+  color: #007bff;
+  text-align: center;
+}
+
+.customForm .form-label {
+  color: #333;
+}
+
+.customForm .form-control {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.customForm .btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.customForm .btn-primary:hover {
+  background-color: #0056b3;
 }

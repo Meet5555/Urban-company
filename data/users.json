@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name" : "Meet",
+    "name" : "Admin",
     "password" : "123",
     "isAdmin" : true,
     "isServiceProvider": false,
@@ -43,5 +43,3 @@
     "activeServices": []
   }
 ]
-
-

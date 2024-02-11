@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Urban company | Add Service</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index.html">Urban company</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a href="/pages/users.html" class="nav-link" id="home-btn">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/pages/services.html" class="nav-link">Services</a>
+            </li>
+            <li class="nav-item">
+              <a href="/pages/addUser.html" class="nav-link">Add User</a>
+            </li>
+            <li class="nav-item">
+              <a href="/pages/addService.html" class="nav-link active">Add Service</a>
+            </li>
+          </ul>
+            <button class="btn btn-outline-danger mx-2" type="button" id="logout-btn">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container border rounded-4 mt-5">
+      <h2 id="container-title" class="text-center">Welcome Admin</h2>
+      <div id="services-container" class="row">Add New Service</div>
+
+      <form class="container w-75 mt-4 pb-3 customForm" id="add-service-form">
+        <div class="mb-3">
+          <label for="service-name" class="form-label">Service Name</label>
+          <input type="text" class="form-control" id="service-name" required>
+        </div>
+        <div class="mb-3">
+          <label for="service-category" class="form-label">Service Category</label>
+          <input type="text" class="form-control" id="service-category" required>
+        </div>
+        <div class="mb-3">
+          <label for="service-desc" class="form-label">Service Description</label>
+          <input type="text" class="form-control" id="service-desc" required>
+        </div>
+        <div class="mb-3">
+          <label for="service-cost" class="form-label">Service Cost</label>
+          <input type="number" class="form-control" id="service-cost" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Service</button>
+      </form>
+
+    </div>
+      
+  </body>
+  <script>
+    const logoutBtn = document.getElementById("logout-btn");
+     
+    logoutBtn.addEventListener("click", function () {
+      // Set userLoggedIn to false and remove userObj from localStorage on logout
+      localStorage.setItem("userLoggedIn", "false");
+      localStorage.removeItem("userObj");
+      // Redirect to login page after logout
+      window.location.href = "/pages/login.html";
+    });
+  
+    document.addEventListener('DOMContentLoaded',async (e)=>{
+      const userLoggedIn = localStorage.getItem("userLoggedIn") || false;
+      const userObj = JSON.parse(localStorage.getItem("userObj")) || false;
+
+      if(userLoggedIn == 'false'){
+        window.location.href = '/index.html';
+      }else if(userLoggedIn == 'true'){
+        if(!userObj.isAdmin){
+          window.location.href = '/index.html';
+        }
+      }
+    })
+    
+    const form = document.getElementById('add-service-form');
+    form.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      let name = document.getElementById('service-name').value.toString().trim();
+      let desc = document.getElementById('service-desc').value.toString().trim();
+      let cost = document.getElementById('service-cost').value;
+      let category = document.getElementById('service-category').value.toString().trim();
+      console.log(name,desc,cost,category)
+      if( name =='' || desc == '' || cost == '' || category == ''){
+        // alert("Must fill all fields");
+        Toastify({
+          text: "Please fill all required fields",
+          duration: 3000,
+          close: true,
+          gravity: "top", // `top` or `bottom`
+          position: "center", // `left`, `center` or `right`
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+            background: "rgb(252, 90, 90)",
+          },
+          onClick: function(){} // Callback after click
+        }).showToast();
+      }else{
+        const services = JSON.parse(localStorage.getItem('services')) || [];
+        const newServiceId = services[services.length - 1].serviceId + 1;
+        services.push({
+          "name": name,
+          "serviceId": newServiceId,
+          "category": category,
+          "cost": cost,
+          "isConsumed": false,
+          "description": desc
+        });
+        localStorage.setItem('services',JSON.stringify(services));
+        // alert('service added successfully');
+        Toastify({
+          text: "service added successfully",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "center",
+          stopOnFocus: true,
+          style: {
+            background: "rgb(12, 188, 12)",
+          },
+          onClick: function(){
+            window.location.href = '/pages/services.html'
+          }
+        }).showToast();
+        setTimeout(() => {
+          window.location.href = '/pages/services.html'
+        }, 2000);
+      }
+    })
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</html>
