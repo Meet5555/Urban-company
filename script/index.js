@@ -1,4 +1,5 @@
 function showAvailableServices(services, selectedCategory = null) {
+  // console.log("Received services:", services); --PAGINATION
   let servicesContainer = document.getElementById("services-container");
   let servicesContainerTitle = document.getElementById("container-title");
 
@@ -279,6 +280,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     localStorage.setItem("users", JSON.stringify(users));
   }
 
+  // const selectedCategory = document.getElementById("filterButton").innerText.replace("Filter (", "").replace(")", "");
+  // showAvailableServicesWithPagination(services, selectedCategory);
+  // updatePagination(1, Math.ceil(services.length / itemsPerPage)); --PAGINATION
+
   if (userLoggedIn === "true") {
     // User is logged in, hide login and sign-up buttons and show logout button
     loginBtn.style.display = "none";
@@ -425,6 +430,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedCategory = e.target.dataset.category;
     if (selectedCategory) {
       handleFilter(selectedCategory);
+    //   // Reset pagination to the first page when a new category is selected
+    // handlePaginationClick(1); console.log("Received services:", services);
     }
   });
 
@@ -497,4 +504,63 @@ function handleFilter(category) {
     filterButton.innerText = `Filter (${category})`;
   }
 }
+
+//Pagination code from below
+
+// const itemsPerPage = 6;
+
+// function showAvailableServicesWithPagination(services, selectedCategory = null, currentPage = 1) {
+//   const startIndex = (currentPage - 1) * itemsPerPage;
+//   const endIndex = startIndex + itemsPerPage;
+
+//   console.log("startIndex:", startIndex);
+//   console.log("endIndex:", endIndex);
+
+//   const servicesToShow = services
+//     .filter((element) => !element.isConsumed && (selectedCategory === null || element.category === selectedCategory))
+//     .slice(startIndex, endIndex);
+
+//   console.log("Filtered servicesToShow:", servicesToShow);
+
+//   showAvailableServices(servicesToShow, selectedCategory);
+
+//   // Update pagination links
+//   updatePagination(currentPage, Math.ceil(services.length / itemsPerPage));
+// }
+
+// function updatePagination(currentPage, totalPages) {
+//   const paginationContainer = document.getElementById("pagination-container");
+//   paginationContainer.innerHTML = "";
+
+//   console.log("currentPage:", currentPage);
+//   console.log("totalPages:", totalPages);
+
+//   for (let i = 1; i <= totalPages; i++) {
+//     const pageLink = document.createElement("a");
+//     pageLink.classList.add("page-link");
+//     pageLink.href = "#";
+//     pageLink.textContent = i;
+//     pageLink.addEventListener("click", () => handlePaginationClick(i));
+
+//     // Highlight the current page
+//     if (i === currentPage) {
+//       pageLink.classList.add("active");
+//     }
+
+//     pageLink.addEventListener("click", () => handlePaginationClick(i));
+
+//     const pageItem = document.createElement("li");
+//     pageItem.classList.add("page-item");
+//     pageItem.appendChild(pageLink);
+
+//     paginationContainer.appendChild(pageItem);
+//   }
+// }
+
+// function handlePaginationClick(page) {
+//   const selectedCategory = document.getElementById("filterButton").innerText.replace("Filter (", "").replace(")", "");
+//   const services = JSON.parse(localStorage.getItem("services")) || [];
+//   showAvailableServicesWithPagination(services, selectedCategory, page);
+// } --PAGINATION
+
 
