@@ -296,6 +296,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     if(userObj.length != 0){
       // console.log(userObj)
       if(userObj.isServiceProvider == true){
+        filterButton.style.display = "none";
       // console.log("inside provider")
         if(!requestedServices || requestedServices.length === 0){
           // console.log("No req")
