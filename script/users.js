@@ -63,6 +63,15 @@ function createUserCard(user) {
       cardBody.appendChild(activeServices);
   }
 
+  const updateUserButton = document.createElement('button')
+  updateUserButton.id = user.id
+  updateUserButton.classList.add('update-user-btn');
+  updateUserButton.classList.add('btn');
+  updateUserButton.classList.add('btn-warning');
+  updateUserButton.textContent = 'Update User';
+  updateUserButton.addEventListener('click',(e)=>{ handleUpdateUser(e) });
+  cardBody.appendChild(updateUserButton);
+
   const deleteUserButton = document.createElement('button')
   deleteUserButton.id = user.id
   deleteUserButton.classList.add('delete-user-btn');
@@ -75,6 +84,10 @@ function createUserCard(user) {
   card.appendChild(cardBody);
 
   return card;
+}
+
+function handleUpdateUser(e){
+  console.log("Me update user hun", e)
 }
 
 function handleDeleteUser(e) {

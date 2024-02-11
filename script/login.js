@@ -9,32 +9,65 @@ loginForm.addEventListener("submit", function (event) {
   const enteredPassword = passwordInput.value;
 
   if (enteredUsername.toString().trim().length == 0 || enteredPassword.toString().trim().length == 0) {
-    alert("Must enter username and password");
+    // alert("Must enter username and password");
+    Toastify({
+      text: "Please enter both username and password correctly",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(252, 90, 90)",
+      }
+    }).showToast();
     resetForm();
     return;
   }
 
-  // Taking the data from LS
+  // Taking the data from Local storage
   const usersData = JSON.parse(localStorage.getItem("users")) || [];
 
   // Checking if the entered username is valid
-  const isUsernameValid = usersData.some((u) => u.name === enteredUsername);
+  const isUsernameValid = usersData.some((u) => u.name === enteredUsername.toString().trim());
 
   if (isUsernameValid) {
     // If username is valid, check the password
-    const user = usersData.find((u) => u.name === enteredUsername && u.password === enteredPassword); //Remove password
+    const user = usersData.find((u) => u.name === enteredUsername.toString().trim() && u.password === enteredPassword.toString().trim());
 
     if (user) {
       localStorage.setItem("userLoggedIn", "true");
       localStorage.setItem("userObj", JSON.stringify(user));
       window.location.href = "/index.html";
     } else {
-      alert("Invalid Credentials. Please try again.");
+      // alert("Invalid Credentials. Please try again.");
+      Toastify({
+        text: "Invalid Credentials. Please try again",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+          background: "rgb(252, 90, 90)",
+        }
+      }).showToast();
       resetForm();
       return;
     }
   } else {
-    alert("User not Found, Register First.");
+    // alert("User not Found, Register First.");
+    Toastify({
+      text: "User not Found, Register First",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "center",
+      stopOnFocus: true,
+      style: {
+        background: "rgb(255, 202, 44)",
+      }
+    }).showToast();
     resetForm();
     return;
   }
