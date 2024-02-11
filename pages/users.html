@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   </head>
   <body>
+    <div class="overlay hide"></div>
     <nav class="navbar navbar-expand-lg bg-dark bg-gradient">
       <div class="container-fluid">
         <a class="navbar-brand" href="/index.html">Urban Company</a>
@@ -34,6 +35,27 @@
         </div>
       </div>
     </nav>
+
+    <!-- modal to edit user  -->
+    <div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateUserModalLabel">Edit User</h5>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="userName" class="form-label">User Name</label>
+              <input type="text" class="form-control" id="userName">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+            <button type="button" class="btn btn-primary" id="saveChangesBtn">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container border rounded-4 mt-5">
       <h2 id="container-title" class="text-center admin-title">Welcome Admin</h2>

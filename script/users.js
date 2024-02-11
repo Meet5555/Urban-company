@@ -69,7 +69,7 @@ function createUserCard(user) {
   updateUserButton.classList.add('btn');
   updateUserButton.classList.add('btn-warning');
   updateUserButton.textContent = 'Update User';
-  updateUserButton.addEventListener('click',(e)=>{ handleUpdateUser(e) });
+  updateUserButton.addEventListener('click', (e) => { handleUpdateUser(e, user.id) });
   cardBody.appendChild(updateUserButton);
 
   const deleteUserButton = document.createElement('button')
@@ -86,8 +86,81 @@ function createUserCard(user) {
   return card;
 }
 
-function handleUpdateUser(e){
-  console.log("Me update user hun", e)
+function handleUpdateUser(e, userId) {
+  const modal = document.getElementById('updateUserModal');
+  const userNameInput = modal.querySelector('#userName');
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const userToBeUpdated = users.filter((user) => user.id === userId);
+  userNameInput.value = userToBeUpdated[0].name;
+
+  const saveChangesBtn = modal.querySelector('#saveChangesBtn');
+  const closeModalBtn = modal.querySelector('#closeModalBtn');
+
+  saveChangesBtn.addEventListener('click', () => {
+    const updatedUserName = userNameInput.value;
+    const userExists = users.some((user) => user.name === updatedUserName);
+    if (!userExists) {
+      updateUserData(userId, updatedUserName);
+      hideModal(modal);
+      // Show Toastify message after hiding modal
+      Toastify({
+        text: 'User updated successfully',
+        duration: 3000,
+        close: true,
+        gravity: 'top',
+        position: 'center',
+        stopOnFocus: true,
+        style: {
+          background: 'rgb(12, 188, 12)',
+        }
+      }).showToast();
+    } else {
+      // Alert if username already exists
+      // alert('Username already exists. Please choose a different one.');
+      Toastify({
+        text: 'Username already exists. Please choose a different one.',
+        duration: 3000,
+        close: true,
+        gravity: 'top',
+        position: 'center',
+        stopOnFocus: true,
+        style: {
+          background: 'rgb(255, 202, 44)',
+        },
+      }).showToast();
+    }
+  });
+
+  closeModalBtn.addEventListener('click', (e) => {
+    hideModal(modal);
+  });
+  showModal(modal);
+}
+
+function showModal(modal) {
+  modal.classList.add('show');
+  modal.style.display = 'block';
+  document.getElementsByClassName('overlay')[0].classList.remove('hide');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideModal(modal) {
+  modal.classList.remove('show');
+  modal.style.display = 'none';
+  document.getElementsByClassName('overlay')[0].classList.add('hide');
+  document.body.style.overflow = '';
+}
+
+function updateUserData(userId, newName) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const updatedUsers = users.map((user) => {
+    if (user.id === userId) {
+      user.name = newName;
+    }
+    return user;
+  });
+  localStorage.setItem('users', JSON.stringify(updatedUsers));
+  showUsers(updatedUsers);
 }
 
 function handleDeleteUser(e) {
