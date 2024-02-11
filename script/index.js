@@ -1,8 +1,17 @@
 function showAvailableServices(services) {
   let servicesContainer = document.getElementById("services-container");
   let servicesContainerTitle = document.getElementById("container-title");
+  
+  // Check if there are no services
+  if (services.length === 0) {
+    servicesContainer.innerHTML = "<h3>No services found</h3>";
+    servicesContainerTitle.innerText = "No Services";
+    return;
+  }
+
   servicesContainer.innerHTML = "";
   servicesContainerTitle.innerText = "Available Services";
+
   services.map((element) => {
     if (!element.isConsumed) {
       let card = createServiceCard(element, "Book Service");
@@ -336,7 +345,8 @@ function performSearch(query, services) {
 
   if (filteredServices.length === 0) {
     // Handle case when no results are found
-    alert("No matching services found.");
+    let servicesContainer = document.getElementById("services-container");
+    servicesContainer.innerHTML = "<h3>No matching services found</h3>";
   } else {
     // Display the filtered services
     showAvailableServices(filteredServices);
@@ -416,6 +426,20 @@ document.addEventListener("DOMContentLoaded", function () {
       handleFilter(selectedCategory);
     }
   });
+
+  document.addEventListener("click", function (event) {
+    const sortButtonParent = event.target.closest("#sortButton");
+    const filterButtonParent = event.target.closest("#filterButton");
+
+    if (!sortButtonParent && !filterButtonParent) {
+      // Clicked outside both sort and filter buttons, close dropdowns
+      const sortButtonInstance = new bootstrap.Dropdown(sortButton);
+      const filterButtonInstance = new bootstrap.Dropdown(filterButton);
+
+      sortButtonInstance.hide();
+      filterButtonInstance.hide();
+    }
+  });
 });
 
 //SORTING FUNCTIONALITY WORKING HERE - Vaideek
@@ -442,22 +466,34 @@ function sortServices(order) {
 
   // Call a function to update the UI with the sorted services
   showAvailableServices(services);
+
+  //Code to show the selected option on select
+  const sortButton = document.getElementById("sortButton");
+  sortButton.innerText = `Sort (${order === 'lowToHigh' ? 'Low to High' : 'High to Low'})`;
 }
 
 
-// Filtering Functionality from here - Vaideek
 function handleFilter(category) {
   // Fetch services from localStorage
   const services = JSON.parse(localStorage.getItem("services")) || [];
 
+  const filterButton = document.getElementById("filterButton");
+
   if (category === "All") {
     // If "All" is selected, show all services
     showAvailableServices(services);
+
+    // Update the text of the filter button
+    filterButton.innerText = "Filter";
   } else {
     // Filter services based on the selected category
     const filteredServices = services.filter((service) => service.category === category);
 
     // Update the UI with the filtered services
     showAvailableServices(filteredServices);
+
+    // Update the text of the filter button
+    filterButton.innerText = `Filter (${category})`;
   }
 }
+
