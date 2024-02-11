@@ -69,6 +69,14 @@ function createServiceCard(users,service){
     acceptedByInfo.textContent = '';
   }
 
+  const updateServiceButton = document.createElement('button')
+  updateServiceButton.id = service.serviceId
+  updateServiceButton.classList.add('update-service-btn');
+  updateServiceButton.classList.add('btn');
+  updateServiceButton.classList.add('btn-warning');
+  updateServiceButton.textContent = 'Edit';
+  updateServiceButton.addEventListener('click', (e) => { handleUpdateService(e, service.serviceId) });
+
   const deleteServiceButton = document.createElement('button')
   deleteServiceButton.id = service.serviceId
   deleteServiceButton.classList.add('delete-service-btn');
@@ -85,6 +93,7 @@ function createServiceCard(users,service){
   card.appendChild(acceptedByInfo);
   card.appendChild(cost);
   card.appendChild(deleteServiceButton);
+  card.appendChild(updateServiceButton);
   return card;
 }
 
@@ -108,6 +117,90 @@ function noServicesInDatabase(){
   card.innerHTML = "No service requested"
   servicesContainer.innerHTML = ''
   servicesContainer.append(card);
+}
+
+function handleUpdateService(e, serviceId) {
+  const modal = document.getElementById('updateServiceModal');
+  const serviceNameInput = modal.querySelector('#serviceName');
+  const serviceDescriptionInput = modal.querySelector('#serviceDescription');
+  const serviceCategoryInput = modal.querySelector('#serviceCategory');
+  const serviceCostInput = modal.querySelector('#serviceCost');
+
+  const services = JSON.parse(localStorage.getItem('services')) || [];
+  const serviceToBeUpdated = services.find((service) => service.serviceId === serviceId);
+
+  // Set input values to the current service data
+  serviceNameInput.value = serviceToBeUpdated.name;
+  serviceDescriptionInput.value = serviceToBeUpdated.description;
+  serviceCategoryInput.value = serviceToBeUpdated.category;
+  serviceCostInput.value = serviceToBeUpdated.cost;
+
+  const saveChangesBtn = modal.querySelector('#saveServiceChangesBtn');
+  const closeServiceModalBtn = modal.querySelector('#closeServiceModalBtn');
+
+  saveChangesBtn.addEventListener('click', () => {
+    const updatedServiceName = serviceNameInput.value;
+    const updatedServiceDescription = serviceDescriptionInput.value;
+    const updatedServiceCategory = serviceCategoryInput.value;
+    const updatedServiceCost = serviceCostInput.value;
+
+    // Update service data
+    updateServiceData(serviceId, updatedServiceName, updatedServiceDescription, updatedServiceCategory, updatedServiceCost);
+
+    // Hide modal after updating service
+    hideModal(modal);
+
+    // Show Toastify message after hiding modal
+    Toastify({
+      text: 'Service updated successfully',
+      duration: 3000,
+      close: true,
+      gravity: 'top',
+      position: 'center',
+      stopOnFocus: true,
+      style: {
+        background: 'rgb(12, 188, 12)',
+      }
+    }).showToast();
+  });
+
+  closeServiceModalBtn.addEventListener('click', (e) => {
+    hideModal(modal);
+  });
+
+  showModal(modal);
+}
+
+function updateServiceData(serviceId, newName, newDescription, newCategory, newCost) {
+  const services = JSON.parse(localStorage.getItem('services')) || [];
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+
+  const updatedServices = services.map((service) => {
+    if (service.serviceId === serviceId) {
+      service.name = newName;
+      service.description = newDescription;
+      service.category = newCategory;
+      service.cost = newCost;
+    }
+    return service;
+  });
+
+  localStorage.setItem('services', JSON.stringify(updatedServices));
+  showAvailableServices(users,updatedServices);
+}
+
+function showModal(modal) {
+  modal.classList.add('show');
+  modal.style.display = 'block';
+  document.getElementsByClassName('overlay')[0].classList.remove('hide');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideModal(modal) {
+  modal.classList.remove('show');
+  modal.style.display = 'none';
+  document.getElementsByClassName('overlay')[0].classList.add('hide');
+  document.body.style.overflow = '';
 }
 
 function handleDeleteService(e){

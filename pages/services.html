@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   </head>
   <body>
+    <div class="overlay hide"></div>
     <nav class="navbar navbar-expand-lg bg-dark bg-gradient">
       <div class="container-fluid">
         <a class="navbar-brand" href="/index.html">Urban Company</a>
@@ -34,6 +35,40 @@
         </div>
       </div>
     </nav>
+
+    <!-- modal to edit service  -->
+    <div class="modal fade" id="updateServiceModal" tabindex="-1" aria-labelledby="updateServiceModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateServiceModalLabel">Edit Service</h5>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="serviceName" class="form-label">Service Name</label>
+              <input type="text" class="form-control" id="serviceName">
+            </div>
+            <div class="mb-3">
+              <label for="serviceDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="serviceDescription" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="serviceCategory" class="form-label">Category</label>
+              <input type="text" class="form-control" id="serviceCategory">
+            </div>
+            <div class="mb-3">
+              <label for="serviceCost" class="form-label">Cost</label>
+              <input type="number" class="form-control" id="serviceCost" step="0.01">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeServiceModalBtn">Close</button>
+            <button type="button" class="btn btn-primary" id="saveServiceChangesBtn">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
     <div class="container border rounded-4 mt-5">
       <h2 id="container-title" class="text-center admin-title">Welcome Admin</h2>
