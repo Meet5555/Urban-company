@@ -33,6 +33,13 @@
   bottom: 5px;
 }
 
+@media (max-width: 990px) {
+  .nav-link.active::before{
+    width: 10%;
+    left: 0;
+    transform: translateX(0%);
+  }
+}
 .container{
   margin-top: 2rem !important;
   padding: 1rem !important;
