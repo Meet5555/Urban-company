@@ -1,7 +1,7 @@
-function showAvailableServices(services) {
+function showAvailableServices(services, selectedCategory = null) {
   let servicesContainer = document.getElementById("services-container");
   let servicesContainerTitle = document.getElementById("container-title");
-  
+
   // Check if there are no services
   if (services.length === 0) {
     servicesContainer.innerHTML = "<h3>No services found</h3>";
@@ -12,8 +12,8 @@ function showAvailableServices(services) {
   servicesContainer.innerHTML = "";
   servicesContainerTitle.innerText = "Available Services";
 
-  services.map((element) => {
-    if (!element.isConsumed) {
+  services.forEach((element) => {
+    if (!element.isConsumed && (selectedCategory === null || element.category === selectedCategory)) {
       let card = createServiceCard(element, "Book Service");
       servicesContainer.appendChild(card);
     }
@@ -154,7 +154,8 @@ function handleBookService(e) {
         background: "rgb(12, 188, 12)",
       }
     }).showToast();
-    showAvailableServices(updatedServices)
+    const selectedCategory = document.getElementById("filterButton").innerText.replace("Filter (", "").replace(")", "");
+    showAvailableServices(updatedServices,selectedCategory);
   }
 }
 
