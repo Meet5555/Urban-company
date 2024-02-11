@@ -194,7 +194,7 @@ function handleAcceptRequest(e) {
   const updatedRequestedServicesObj = requestedServices.filter((reqService) => reqService.requestedService !== requestedServiceId);
 
   // Find the user who requested the service
-  const requestedUser = users.find((user) => requestedServices.some((reqService) => reqService.requestedBy === user.id));
+  const requestedUser = users.find((user) => requestedServices.some((reqService) => reqService.requestedBy === user.id  && reqService.requestedService === requestedServiceId));
 
   // Update activeService and requested service for the user in the users array
   const updatedUsersArray = users.map((user) => {

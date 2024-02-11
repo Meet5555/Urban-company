@@ -24,7 +24,7 @@ signUpForm.addEventListener('submit',(e)=>{
   // if username already exists then don't register
   const users = JSON.parse(localStorage.getItem('users')) || [];
   if(users.length == 0 || !users){
-    registerUser(username,password);
+    registerUser(username.toString().trim(),password.toString().trim());
   }else{
     let userExists = users.find((user)=>{
       return user.name == username;
@@ -45,7 +45,7 @@ signUpForm.addEventListener('submit',(e)=>{
       resetForm();
       return;
     }else{
-      registerUser(username,password);
+      registerUser(username.toString().trim(),password.toString().trim());
     }
   }
 });

@@ -29,11 +29,11 @@ loginForm.addEventListener("submit", function (event) {
   const usersData = JSON.parse(localStorage.getItem("users")) || [];
 
   // Checking if the entered username is valid
-  const isUsernameValid = usersData.some((u) => u.name === enteredUsername);
+  const isUsernameValid = usersData.some((u) => u.name === enteredUsername.toString().trim());
 
   if (isUsernameValid) {
     // If username is valid, check the password
-    const user = usersData.find((u) => u.name === enteredUsername && u.password === enteredPassword); //Remove password
+    const user = usersData.find((u) => u.name === enteredUsername.toString().trim() && u.password === enteredPassword.toString().trim());
 
     if (user) {
       localStorage.setItem("userLoggedIn", "true");
