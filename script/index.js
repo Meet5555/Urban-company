@@ -1,10 +1,4 @@
-function showAvailableServices(
-  services,
-  selectedCategory = "All",
-  currentPage = 1,
-  itemsPerPage = 6
-) {
-
+function showAvailableServices(services,selectedCategory = "All") {
   let servicesContainer = document.getElementById("services-container");
   let servicesContainerTitle = document.getElementById("container-title");
   const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
@@ -44,37 +38,28 @@ function showAvailableServices(
 }
 
 function createServiceCard(service, btnText) {
-  // console.log("inside create card", service)
   const card = document.createElement("div");
-  card.classList.add("service-card");
-  card.classList.add("card");
-  card.classList.add("col-3");
+  card.classList.add("service-card","card","col-3");
 
   const title = document.createElement("h2");
-  title.classList.add("service-title");
-  title.classList.add("card-title");
+  title.classList.add("service-title","card-title");
   title.textContent = service.name;
 
   const description = document.createElement("h4");
-  description.classList.add("service-description");
-  description.classList.add("card-text");
+  description.classList.add("service-description","card-text");
   description.textContent = service.description;
 
   const category = document.createElement("h5");
-  category.classList.add("service-category");
-  category.classList.add("card-text");
+  category.classList.add("service-category","card-text");
   category.textContent = `Category: ${service.category}`;
 
   const cost = document.createElement("h4");
-  cost.classList.add("service-cost");
-  cost.classList.add("card-text");
+  cost.classList.add("service-cost","card-text");
   cost.textContent = ` Cost: ₹${service.cost}`;
 
   const bookServiceButton = document.createElement("button");
   bookServiceButton.id = service.serviceId;
-  bookServiceButton.classList.add("book-service");
-  bookServiceButton.classList.add("btn");
-  bookServiceButton.classList.add("btn-primary");
+  bookServiceButton.classList.add("book-service","btn","btn-primary");
   bookServiceButton.textContent = btnText;
   bookServiceButton.addEventListener("click", (e) => {
     btnText.includes("Book") ? handleBookService(e) : handleAcceptRequest(e);
@@ -91,10 +76,9 @@ function createServiceCard(service, btnText) {
 function handleBookService(e) {
   const loggedIn = isUserLoggedIn();
   if (!loggedIn) {
-    // alert('You are not logged in');
     Toastify({
       text: "Please Login first to book service",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -119,10 +103,9 @@ function handleBookService(e) {
       userObj.requestedServices.length >= 3 ||
       userObj.activeServices.length >= 3
     ) {
-      // alert('You have booked maximum of 3 services, try again after completion of previous service');
       Toastify({
         text: "You have booked maximum of 3 services, try again after completion of previous service",
-        duration: 3000,
+        duration: 2000,
         close: true,
         gravity: "top",
         position: "center",
@@ -168,10 +151,9 @@ function handleBookService(e) {
     localStorage.setItem("userObj", JSON.stringify(userObj));
     localStorage.setItem("users", JSON.stringify(updatedUsers));
     localStorage.setItem("services", JSON.stringify(updatedServices));
-    // alert('Service Requested')
     Toastify({
       text: "Service requested successfully",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -186,12 +168,6 @@ function handleBookService(e) {
       .replace(")", "")
       .replace("(", "")
       .trim();
-    console.log(
-      "Booked",
-      selectedCategory,
-      selectedCategory.length,
-      updatedServices
-    );
     if (selectedCategory.length != 0) {
       showAvailableServices(updatedServices, selectedCategory);
     } else {
@@ -204,10 +180,9 @@ function handleAcceptRequest(e) {
   const loggedIn = isUserLoggedIn();
 
   if (!loggedIn) {
-    // alert('You are not logged in');
     Toastify({
       text: "You are not logged in",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -227,10 +202,9 @@ function handleAcceptRequest(e) {
     JSON.parse(localStorage.getItem("requestedServices")) || [];
 
   if (userObj.acceptedServices.length >= 3) {
-    // alert('You have accepted a maximum of 3 services. Please try again after completing a previous service.');
     Toastify({
       text: "You have accepted a maximum of 3 services. Please try again after completing a previous service.",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -291,10 +265,9 @@ function handleAcceptRequest(e) {
     JSON.stringify(updatedRequestedServicesObj)
   );
 
-  // alert('Service accepted');
   Toastify({
     text: "Service accepted",
-    duration: 3000,
+    duration: 2000,
     close: true,
     gravity: "top",
     position: "center",
@@ -334,10 +307,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     localStorage.setItem("users", JSON.stringify(users));
   }
 
-  // const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
-  // showAvailableServicesWithPagination(services, selectedCategory);
-  // updatePagination(1, Math.ceil(services.length / itemsPerPage)); --PAGINATION
-
   if (userLoggedIn === "true") {
     // User is logged in, hide login and sign-up buttons and show logout button
     loginBtn.style.display = "none";
@@ -349,16 +318,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       JSON.parse(localStorage.getItem("requestedServices")) || [];
     const servicesContainerTitle = document.getElementById("container-title");
     if (userObj.length != 0) {
-      // console.log(userObj)
       if (userObj.isServiceProvider == true) {
-        // console.log("inside provider")
         if (!requestedServices || requestedServices.length === 0) {
-          // console.log("No req")
           noServiceRequested();
           servicesContainerTitle.innerText = "Available Requests for Service";
         } else {
-          // console.log("yes req")
-          // console.log(requestedServices)
           showRequestedServices(services, requestedServices);
         }
       }
@@ -446,11 +410,8 @@ function showRequestedServices(services, requestedServices) {
     noServiceRequested();
     servicesContainerTitle.innerText = "Requested Services";
   } else {
-    // console.log("reqArr" ,requestedServicesArray)
-    // console.log("reqObj" ,requestedServicesObj)
     servicesContainer.innerHTML = "";
     servicesContainerTitle.innerText = "Requested Services";
-    // console.log("after",requestedServicesObj)
     requestedServicesObj.map((element) => {
       let card = createServiceCard(element, "Accept");
       servicesContainer.append(card);
@@ -501,8 +462,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedCategory = e.target.dataset.category;
     if (selectedCategory) {
       handleFilter(selectedCategory);
-      //   // Reset pagination to the first page when a new category is selected
-      // handlePaginationClick(1); console.log("Received services:", services);
     }
   });
 
@@ -619,17 +578,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function handlePriceRange(selectedPriceRange) {
   const services = JSON.parse(localStorage.getItem("services")) || [];
-  
-  // Implement logic to filter services based on the selected price range
-  const filteredServices = services.filter((service) => {
-    const serviceCost = parseInt(service.cost);
-    const [min, max] = selectedPriceRange.split('-').map(Number);
-    return serviceCost >= min && (serviceCost <= max || isNaN(max));
-  });
-
-  // Update the UI with the filtered services
-  showAvailableServices(filteredServices);
-
-  // Optionally, update other UI elements or perform additional actions
-  console.log("Selected Price Range:", selectedPriceRange);
+  const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
+  if(selectedCategory.length != 0){
+    if(selectedPriceRange === 'All Range'){
+      showAvailableServices(services,selectedCategory);
+    }else{
+      // Implement logic to filter services based on the selected price range
+      let filteredServices = services.filter((service) => {
+        const serviceCost = parseInt(service.cost);
+        const [min, max] = selectedPriceRange.split('-').map(Number);
+        return serviceCost >= min && (serviceCost <= max) && service.category === selectedCategory;
+      });
+      // Update the UI with the filtered services
+      showAvailableServices(filteredServices);
+    }
+  }else{
+    let filteredServices = services.filter((service) => {
+      const serviceCost = parseInt(service.cost);
+      const [min, max] = selectedPriceRange.split('-').map(Number);
+      return serviceCost >= min && (serviceCost <= max)
+    });
+    // Update the UI with the filtered services
+    showAvailableServices(filteredServices);
+  }
 }

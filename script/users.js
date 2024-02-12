@@ -11,9 +11,7 @@ function showUsers(users){
 
 function createUserCard(user) {
   const card = document.createElement('div');
-  card.classList.add('user-card');
-  card.classList.add('card');
-  card.classList.add('col-3');
+  card.classList.add('user-card','card','col-3');
 
   const cardBody = document.createElement('div');
   cardBody.classList.add('card-body');
@@ -65,18 +63,14 @@ function createUserCard(user) {
 
   const updateUserButton = document.createElement('button')
   updateUserButton.id = user.id
-  updateUserButton.classList.add('update-user-btn');
-  updateUserButton.classList.add('btn');
-  updateUserButton.classList.add('btn-warning');
+  updateUserButton.classList.add('update-user-btn','btn','btn-warning');
   updateUserButton.textContent = 'Update User';
   updateUserButton.addEventListener('click', (e) => { handleUpdateUser(e, user.id) });
   cardBody.appendChild(updateUserButton);
 
   const deleteUserButton = document.createElement('button')
   deleteUserButton.id = user.id
-  deleteUserButton.classList.add('delete-user-btn');
-  deleteUserButton.classList.add('btn');
-  deleteUserButton.classList.add('btn-danger');
+  deleteUserButton.classList.add('delete-user-btn','btn','btn-danger');
   deleteUserButton.textContent = 'Delete User';
   deleteUserButton.addEventListener('click',(e)=>{ handleDeleteUser(e) });
 
@@ -105,7 +99,7 @@ function handleUpdateUser(e, userId) {
       // Show Toastify message after hiding modal
       Toastify({
         text: 'User updated successfully',
-        duration: 3000,
+        duration: 2000,
         close: true,
         gravity: 'top',
         position: 'center',
@@ -115,11 +109,9 @@ function handleUpdateUser(e, userId) {
         }
       }).showToast();
     } else {
-      // Alert if username already exists
-      // alert('Username already exists. Please choose a different one.');
       Toastify({
         text: 'Username already exists. Please choose a different one.',
-        duration: 3000,
+        duration: 2000,
         close: true,
         gravity: 'top',
         position: 'center',
@@ -179,7 +171,6 @@ function handleDeleteUser(e) {
 
   if (userToBeDeleted.isServiceProvider) {
     const acceptedServices = userToBeDeleted.acceptedServices;
-    console.log(acceptedServices);
   
     // If user is a service provider:
     // Find users whose services have been accepted and are present in acceptedServices array
@@ -215,10 +206,9 @@ function handleDeleteUser(e) {
         (user) => user.id !== userToBeDeleted.id
       );
       localStorage.setItem('users', JSON.stringify(usersWithoutServiceProvider));
-      // alert('user deleted');
       Toastify({
         text: "user deleted successfully",
-        duration: 3000,
+        duration: 2000,
         close: true,
         gravity: "top",
         position: "center",
@@ -257,10 +247,9 @@ function handleDeleteUser(e) {
     // Remove requested services from requestedServices array in local storage
     const updatedRequestedServicesObj = requestedServices.filter((service) => !userRequestedServices.some((userReqService) => userReqService.serviceId === service.requestedService));
     localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
-    // alert('user deleted');
     Toastify({
       text: "user deleted successfully",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -278,7 +267,6 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
   const services = JSON.parse(localStorage.getItem('services')) || [];
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-  console.log(userObj)
   
   if(!users || users.length === 0){
     noUsersRegistered()

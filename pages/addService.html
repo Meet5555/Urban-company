@@ -95,18 +95,16 @@
       let category = document.getElementById('service-category').value.toString().trim();
       console.log(name,desc,cost,category)
       if( name =='' || desc == '' || cost == '' || category == ''){
-        // alert("Must fill all fields");
         Toastify({
           text: "Please fill all required fields",
-          duration: 3000,
+          duration: 2000,
           close: true,
-          gravity: "top", // `top` or `bottom`
-          position: "center", // `left`, `center` or `right`
-          stopOnFocus: true, // Prevents dismissing of toast on hover
+          gravity: "top",
+          position: "center",
+          stopOnFocus: true,
           style: {
             background: "rgb(252, 90, 90)",
-          },
-          onClick: function(){} // Callback after click
+          }
         }).showToast();
       }else{
         const services = JSON.parse(localStorage.getItem('services')) || [];
@@ -120,10 +118,9 @@
           "description": desc
         });
         localStorage.setItem('services',JSON.stringify(services));
-        // alert('service added successfully');
         Toastify({
           text: "service added successfully",
-          duration: 3000,
+          duration: 2000,
           close: true,
           gravity: "top",
           position: "center",

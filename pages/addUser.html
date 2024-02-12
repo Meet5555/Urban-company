@@ -104,10 +104,9 @@
       e.preventDefault();
       let name = document.getElementById('user-name').value.toString().trim();
       if(name == 'Admin'){
-        // alert('User name can not be Admin');
         Toastify({
           text: "User name can not be Admin",
-          duration: 3000,
+          duration: 2000,
           close: true,
           gravity: "top",
           position: "center",
@@ -125,10 +124,9 @@
         serviceProviderCategory = document.getElementById('service-provider-category').value.toString().trim();
       }
       if( name =='' || password == ''){
-        // alert("Must fill all fields");
         Toastify({
           text: "Please fill all required fields",
-          duration: 3000,
+          duration: 2000,
           close: true,
           gravity: "top",
           position: "center",
@@ -146,10 +144,9 @@
         let userExists = users.find((user)=> user.name == name);
 
         if(userExists){
-          // alert('User already exists')
           Toastify({
           text: "User already exists",
-          duration: 3000,
+          duration: 2000,
           close: true,
           gravity: "top",
           position: "center",
@@ -161,10 +158,9 @@
         }else{
           if(isProviderCheckbox.checked){
             if(!serviceProviderCategory || serviceProviderCategory == ''){
-              // alert('Please fill required fields');
               Toastify({
                 text: "Please fill all required fields",
-                duration: 3000,
+                duration: 2000,
                 close: true,
                 gravity: "top",
                 position: "center",
@@ -200,10 +196,9 @@
             });
           }
           localStorage.setItem('users',JSON.stringify(users));
-          // alert('user added successfully');
           Toastify({
             text: "User added successfully",
-            duration: 3000,
+            duration: 2000,
             close: true,
             gravity: "top",
             position: "center",

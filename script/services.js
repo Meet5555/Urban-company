@@ -8,41 +8,31 @@ function showAvailableServices(users,services){
 }
 
 function createServiceCard(users,service){
-  // console.log("inside create card", service)
   const card = document.createElement('div');
-  card.classList.add('service-card');
-  card.classList.add('card');
-  card.classList.add('col-3');
+  card.classList.add('service-card','card','col-3');
 
   const id = document.createElement('h4')
-  id.classList.add('service-id');
-  id.classList.add('card-title');
+  id.classList.add('service-id','card-title');
   id.textContent = `Service Id: ${service.serviceId}`;
 
   const title = document.createElement('h2')
-  title.classList.add('service-title');
-  title.classList.add('card-title');
+  title.classList.add('service-title','card-title');
   title.textContent = service.name;
   
   const description = document.createElement('h4');
-  description.classList.add('service-description');
-  description.classList.add('card-text');
+  description.classList.add('service-description','card-text');
   description.textContent = service.description;
 
   const category = document.createElement('h5');
-  category.classList.add('admin-service-category');
-  category.classList.add('card-text');
+  category.classList.add('admin-service-category','card-text');
   category.textContent = `Category: ${service.category}`;
   
   const cost = document.createElement('h4');
-  cost.classList.add('admin-service-cost');
-  cost.classList.add('card-text');
+  cost.classList.add('admin-service-cost','card-text');
   cost.textContent =` Cost: ₹${service.cost}`;
 
   const consumptionInfo = document.createElement('p');
-  consumptionInfo.classList.add('admin-service-consumption-info');
-  consumptionInfo.classList.add('card-text');
-  consumptionInfo.classList.add('service-category');
+  consumptionInfo.classList.add('admin-service-consumption-info','card-text','service-category');
 
   if (service.isConsumed) {
     const consumedByUser = users.find((user) => {
@@ -153,7 +143,7 @@ function handleUpdateService(e, serviceId) {
     // Show Toastify message after hiding modal
     Toastify({
       text: 'Service updated successfully',
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: 'top',
       position: 'center',
@@ -229,10 +219,9 @@ function handleDeleteService(e){
   let updatedServices = services.filter((service)=> service.serviceId != serviceIdToDelete);
   localStorage.setItem('services', JSON.stringify(updatedServices));
   
-  // alert('Service Deleted');
   Toastify({
     text: "Service Deleted successfully",
-    duration: 3000,
+    duration: 2000,
     close: true,
     gravity: "top",
     position: "center",
