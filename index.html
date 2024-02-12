@@ -69,10 +69,6 @@
       </button>
       <div class="dropdown-menu" id="filterOptions">
         <a class="dropdown-item" href="#" data-category="All">All Categories </a>
-        <a class="dropdown-item" href="#" data-category="Electrician">Electrician</a>
-        <a class="dropdown-item" href="#" data-category="Plumbing">Plumbing</a>
-        <a class="dropdown-item" href="#" data-category="Painter">Painter</a>
-        <a class="dropdown-item" href="#" data-category="Cleaning">Cleaning</a>
       </div>
     </div>
 
@@ -82,10 +78,7 @@
         Price Range
       </button>
       <div class="dropdown-menu" id="priceRangeOptions">
-        <a class="dropdown-item" href="#" data-category="Electrician">0-500</a>
-        <a class="dropdown-item" href="#" data-category="Plumbing">500-1000</a>
-        <a class="dropdown-item" href="#" data-category="Painter">1000-1500</a>
-        <a class="dropdown-item" href="#" data-category="Cleaning">1500-2000+</a>
+        <a class="dropdown-item" href="#" data-category="All">All Range</a>
       </div>
     </div>
   </div>
@@ -113,14 +106,59 @@
       let activeServicesBtn = document.getElementById('active-services-btn');
       let acceptedServicesBtn = document.getElementById('accepted-services-btn');
 
+      const services = JSON.parse(localStorage.getItem('services'));
+      const uniqueCategories = Array.from(new Set(services.map(service => service.category))).sort();
+
+      uniqueCategories.forEach(category => {
+        const dropdownItem = document.createElement('a');
+        dropdownItem.classList.add('dropdown-item');
+        dropdownItem.href = '#';
+        dropdownItem.setAttribute('data-category', category);
+        dropdownItem.textContent = category;
+        filterOptions.appendChild(dropdownItem);
+      });
+
+      // Get the priceRangeOptions element
+      const priceRangeOptions = document.getElementById('priceRangeOptions');
+
+      // Extract unique price ranges from service costs
+      const uniquePriceRanges = Array.from(new Set(services.map(service => parseInt(service.cost))));
+
+      // Sort the unique price ranges in ascending order
+      uniquePriceRanges.sort((a, b) => a - b);
+      console.log(uniquePriceRanges)
+      // Calculate the step value based on the number of options
+      const step = Math.ceil(uniquePriceRanges.length / 5);
+
+      // Generate 5 price range options dynamically
+      for (let i = 0; i < 5; i++) {
+        const startIndex = i * step;
+        const endIndex = (i + 1) * step;
+
+        // Get the minimum and maximum values within the current range
+        const minCost = uniquePriceRanges[startIndex] ??  uniquePriceRanges[uniquePriceRanges.length - 1];
+        const maxCost = endIndex < uniquePriceRanges.length ? uniquePriceRanges[endIndex] : uniquePriceRanges[uniquePriceRanges.length - 1];
+
+        // Avoid duplicate ranges
+        if (minCost !== maxCost) {
+          // Create a dropdown item
+          const dropdownItem = document.createElement('a');
+          dropdownItem.classList.add('dropdown-item');
+          dropdownItem.href = '#';
+          dropdownItem.setAttribute('data-category', `${minCost}-${maxCost}`);
+          dropdownItem.textContent = `${minCost}-${maxCost}`;
+
+          // Append the item to the dropdown menu
+          priceRangeOptions.appendChild(dropdownItem);
+        }
+      }
+
       if (!userLoggedIn || userLoggedIn == 'false') {
         document.getElementsByClassName('welcome-user-link')[0].style.display = 'none'
         requestedServicesBtn.style.display = 'none';
         activeServicesBtn.style.display = 'none';
         acceptedServicesBtn.style.display = 'none';
       } else if (userLoggedIn == 'true') {
-        document.getElementsByClassName('welcome-user-link')[0].style.display = 'block';
-        document.getElementById('user-name-title').innerHTML = `Welcome, ${userObj.name}`;
         if (userObj.isServiceProvider == true) {
           requestedServicesBtn.style.display = 'none';
           activeServicesBtn.style.display = 'none';
@@ -134,6 +172,9 @@
           acceptedServicesBtn.style.display = 'none';
           filterButton.style.display = "block";  
         }
+
+        document.getElementsByClassName('welcome-user-link')[0].style.display = 'block';
+        document.getElementById('user-name-title').innerHTML = `Welcome, ${userObj.name}`;
       }
     })
   </script>

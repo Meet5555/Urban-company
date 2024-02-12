@@ -13,7 +13,7 @@ function showAvailableServices(services, selectedCategory = 'All') {
   
   // Check if there are no services
   if (services.length === 0) {
-    servicesContainer.innerHTML = "<h3>No requested services found</h3>";
+    servicesContainer.innerHTML = "<h3>No services found</h3>";
     return;
   }
 
@@ -389,7 +389,7 @@ function performSearch(query, services,selectedCategory) {
     return (
       (service.name.toLowerCase().includes(query) ||
       service.description.toLowerCase().includes(query) ||
-      service.category.toLowerCase().includes(query)) && (selectedCategory.length != 0 ? service.category === selectedCategory: true) 
+      service.category.toLowerCase().includes(query)) && (selectedCategory.length != 0 ? service.category === selectedCategory: true) && !service.isConsumed
     );
   });
   if (filteredServices.length === 0) {
@@ -583,20 +583,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function handlePriceRange(selectedPriceRange) {
   const services = JSON.parse(localStorage.getItem("services")) || [];
-  
-  // Implement logic to filter services based on the selected price range
-  const filteredServices = services.filter((service) => {
-    const serviceCost = parseInt(service.cost);
-    const [min, max] = selectedPriceRange.split('-').map(Number);
-    return serviceCost >= min && (serviceCost <= max || isNaN(max));
-  });
-
-  // Update the UI with the filtered services
-  showAvailableServices(filteredServices);
-
-  // Optionally, update other UI elements or perform additional actions
-  console.log("Selected Price Range:", selectedPriceRange);
+  const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
+  if(selectedCategory.length != 0){
+    if(selectedPriceRange === 'All Range'){
+      showAvailableServices(services,selectedCategory);
+    }else{
+      // Implement logic to filter services based on the selected price range
+      let filteredServices = services.filter((service) => {
+        const serviceCost = parseInt(service.cost);
+        const [min, max] = selectedPriceRange.split('-').map(Number);
+        return serviceCost >= min && (serviceCost <= max) && service.category === selectedCategory;
+      });
+      // Update the UI with the filtered services
+      showAvailableServices(filteredServices);
+    }
+  }else{
+    let filteredServices = services.filter((service) => {
+      const serviceCost = parseInt(service.cost);
+      const [min, max] = selectedPriceRange.split('-').map(Number);
+      return serviceCost >= min && (serviceCost <= max)
+    });
+    // Update the UI with the filtered services
+    showAvailableServices(filteredServices);
+  }
 }
+
 //Pagination code from below
 
 // const itemsPerPage = 6;
