@@ -262,7 +262,6 @@ function handleDeleteUser(e) {
   }
 }
 
-
 document.addEventListener('DOMContentLoaded',async (e)=>{
   const services = JSON.parse(localStorage.getItem('services')) || [];
   const users = JSON.parse(localStorage.getItem('users')) || [];
