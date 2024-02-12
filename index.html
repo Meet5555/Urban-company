@@ -40,7 +40,7 @@
   <div class="container mt-3 options-container" style="width: 80%;">
     <form class="form-inline my-2 my-lg-0" style="display: inline-block;width: 90%;">
       <div class="input-group">
-        <input class="form-control mr-2" type="search" placeholder="Search Services" aria-label="Search" id="searchInput">
+        <input class="form-control mr-2" type="search" placeholder="Search Services" aria-label="Search" id="searchInput" autofocus>
       </div>
     </form>
 
@@ -50,8 +50,8 @@
         Sort
       </button>
       <div class="dropdown-menu" id="sortOptions">
-        <a class="dropdown-item" href="#" onclick="sortServices('lowToHigh')">0 - 1500 (Low to High)</a>
-        <a class="dropdown-item" href="#" onclick="sortServices('highToLow')">1500 - 0(High to Low)</a>
+        <a class="dropdown-item" href="#" onclick="sortServices('lowToHigh')">Price (Low to High)</a>
+        <a class="dropdown-item" href="#" onclick="sortServices('highToLow')">Price (High to Low)</a>
       </div>
     </div>
 
@@ -61,6 +61,7 @@
         Categories
       </button>
       <div class="dropdown-menu" id="filterOptions">
+        <a class="dropdown-item" href="#" data-category="All">All Categories </a>
         <a class="dropdown-item" href="#" data-category="Electrician">Electrician</a>
         <a class="dropdown-item" href="#" data-category="Plumbing">Plumbing</a>
         <a class="dropdown-item" href="#" data-category="Painter">Painter</a>
@@ -101,12 +102,14 @@
           requestedServicesBtn.style.display = 'none';
           activeServicesBtn.style.display = 'none';
           acceptedServicesBtn.style.display = 'block';
+          filterButton.style.display = "none";  
         }else if(userObj.isAdmin == true){
           window.location.href = '/pages/users.html'
         }else{
           requestedServicesBtn.style.display = 'block';
           activeServicesBtn.style.display = 'block';
           acceptedServicesBtn.style.display = 'none';
+          filterButton.style.display = "block";  
         }
       }
     })
