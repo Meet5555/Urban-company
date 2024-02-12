@@ -3,8 +3,8 @@ signUpForm.addEventListener('submit',(e)=>{
   e.preventDefault();
   let username = document.getElementById('username').value;
   let password = document.getElementById('password').value;
-  let isServiceProvider = document.getElementById('is-provider').checked;
-  
+  let isServiceProvider = document.getElementById('is-provider-signup').checked;
+  console.log(isServiceProvider)
   if(username.toString().trim().length == 0 || password.toString().trim().length == 0){
     Toastify({
       text: "Please enter both username and password",
@@ -49,7 +49,6 @@ signUpForm.addEventListener('submit',(e)=>{
   }
 });
 
-
 function resetForm(){
   document.getElementById('username').value = ''
   document.getElementById('password').value = ''
@@ -71,7 +70,7 @@ function registerUser(username,password,isServiceProvider){
   if(isServiceProvider){
     registerServiceProvider(users,username,password);
   }else{
-    users.push(newUser)
+    users.push(newUser);
     localStorage.setItem('users',JSON.stringify(users));
     // login user by default
     localStorage.setItem('userLoggedIn','true');
@@ -97,12 +96,17 @@ function registerUser(username,password,isServiceProvider){
 }
 
 function registerServiceProvider(users,username,password){
-  let serviceProviderCategory = document.getElementById('service-provider-category').value.toString().trim();
-  const serviceProviders = users.filter((user)=> user.isServiceProvider) || [];
-  const newServiceProviderId = serviceProviders[serviceProviders.length - 1].serviceProviderId + 1;
+  let serviceProviderCategory = document.getElementById('signup-service-provider-category').value.toString().trim();
+  let serviceProviders = users.filter((user)=> user.isServiceProvider) || [];
+  let usersCount = users.length;
+  let newServiceProviderId = 1;
+
+  if (serviceProviders.length > 0) {
+    newServiceProviderId = serviceProviders[serviceProviders.length - 1].serviceProviderId + 1;
+  }
 
   const newUser = {
-    "id": ++users.length,
+    "id": ++usersCount,
     "name" : username,
     "password" : password,
     "isAdmin" : false,
