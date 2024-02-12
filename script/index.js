@@ -54,11 +54,11 @@ function createServiceCard(service, btnText) {
   category.classList.add("service-category");
   category.classList.add("card-text");
   category.textContent = `Category: ${service.category}`;
-  
-  const cost = document.createElement('h4');
-  cost.classList.add('service-cost');
-  cost.classList.add('card-text');
-  cost.textContent =` Cost: ₹${service.cost}`;
+
+  const cost = document.createElement("h4");
+  cost.classList.add("service-cost");
+  cost.classList.add("card-text");
+  cost.textContent = ` Cost: ₹${service.cost}`;
 
   const bookServiceButton = document.createElement("button");
   bookServiceButton.id = service.serviceId;
@@ -80,7 +80,7 @@ function createServiceCard(service, btnText) {
 
 function handleBookService(e) {
   const loggedIn = isUserLoggedIn();
-  if(!loggedIn){
+  if (!loggedIn) {
     // alert('You are not logged in');
     Toastify({
       text: "Please Login first to book service",
@@ -92,9 +92,9 @@ function handleBookService(e) {
       style: {
         background: "rgb(255, 202, 44)",
       },
-      onClick: function(){
-        window.location.href = '/pages/login.html'
-      }
+      onClick: function () {
+        window.location.href = "/pages/login.html";
+      },
     }).showToast();
   } else {
     const userObj = JSON.parse(localStorage.getItem("userObj"));
@@ -105,7 +105,10 @@ function handleBookService(e) {
       JSON.parse(localStorage.getItem("requestedServices")) || [];
 
     // check if user have more than 3 services booked or requested
-    if(userObj.requestedServices.length >= 3 || userObj.activeServices.length >= 3){
+    if (
+      userObj.requestedServices.length >= 3 ||
+      userObj.activeServices.length >= 3
+    ) {
       // alert('You have booked maximum of 3 services, try again after completion of previous service');
       Toastify({
         text: "You have booked maximum of 3 services, try again after completion of previous service",
@@ -116,7 +119,7 @@ function handleBookService(e) {
         stopOnFocus: true,
         style: {
           background: "rgb(255, 202, 44)",
-        }
+        },
       }).showToast();
       return;
     }
@@ -152,9 +155,9 @@ function handleBookService(e) {
     });
 
     // Update the local storage with the modified userObj
-    localStorage.setItem('userObj', JSON.stringify(userObj));
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
-    localStorage.setItem('services', JSON.stringify(updatedServices));
+    localStorage.setItem("userObj", JSON.stringify(userObj));
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    localStorage.setItem("services", JSON.stringify(updatedServices));
     // alert('Service Requested')
     Toastify({
       text: "Service requested successfully",
@@ -165,7 +168,7 @@ function handleBookService(e) {
       stopOnFocus: true,
       style: {
         background: "rgb(12, 188, 12)",
-      }
+      },
     }).showToast();
     const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
     console.log("Booked", selectedCategory , selectedCategory.length, updatedServices)
@@ -191,16 +194,17 @@ function handleAcceptRequest(e) {
       stopOnFocus: true,
       style: {
         background: "rgb(252, 90, 90)",
-      }
+      },
     }).showToast();
     return;
   }
 
   const requestedServiceId = parseInt(e.target.id);
-  const services = JSON.parse(localStorage.getItem('services')) || [];
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-  const requestedServices = JSON.parse(localStorage.getItem('requestedServices')) || [];
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
+  const requestedServices =
+    JSON.parse(localStorage.getItem("requestedServices")) || [];
 
   if (userObj.acceptedServices.length >= 3) {
     // alert('You have accepted a maximum of 3 services. Please try again after completing a previous service.');
@@ -213,21 +217,31 @@ function handleAcceptRequest(e) {
       stopOnFocus: true,
       style: {
         background: "rgb(255, 202, 44)",
-      }
+      },
     }).showToast();
     return;
   }
 
   // Update requested service array in local storage
-  const updatedRequestedServicesObj = requestedServices.filter((reqService) => reqService.requestedService !== requestedServiceId);
+  const updatedRequestedServicesObj = requestedServices.filter(
+    (reqService) => reqService.requestedService !== requestedServiceId
+  );
 
   // Find the user who requested the service
-  const requestedUser = users.find((user) => requestedServices.some((reqService) => reqService.requestedBy === user.id  && reqService.requestedService === requestedServiceId));
+  const requestedUser = users.find((user) =>
+    requestedServices.some(
+      (reqService) =>
+        reqService.requestedBy === user.id &&
+        reqService.requestedService === requestedServiceId
+    )
+  );
 
   // Update activeService and requested service for the user in the users array
   const updatedUsersArray = users.map((user) => {
     if (user.id === requestedUser.id) {
-      user.requestedServices = user.requestedServices.filter((serviceId) => serviceId !== requestedServiceId);
+      user.requestedServices = user.requestedServices.filter(
+        (serviceId) => serviceId !== requestedServiceId
+      );
       user.activeServices.push(requestedServiceId);
     }
     return user;
@@ -249,11 +263,14 @@ function handleAcceptRequest(e) {
   });
 
   // Save userObj, users, services, requested services to local storage
-  localStorage.setItem('users', JSON.stringify(updatedUsersArray));
-  localStorage.setItem('userObj', JSON.stringify(userObj));
-  localStorage.setItem('services', JSON.stringify(services));
-  localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
-  
+  localStorage.setItem("users", JSON.stringify(updatedUsersArray));
+  localStorage.setItem("userObj", JSON.stringify(userObj));
+  localStorage.setItem("services", JSON.stringify(services));
+  localStorage.setItem(
+    "requestedServices",
+    JSON.stringify(updatedRequestedServicesObj)
+  );
+
   // alert('Service accepted');
   Toastify({
     text: "Service accepted",
@@ -264,16 +281,16 @@ function handleAcceptRequest(e) {
     stopOnFocus: true,
     style: {
       background: "rgb(12, 188, 12)",
-    }
+    },
   }).showToast();
 
   // Call show requested service function
   showRequestedServices(services, updatedRequestedServicesObj);
 }
 
-function isUserLoggedIn(){
-  const userLoggedIn = localStorage.getItem('userLoggedIn');
-  return userLoggedIn === 'true' ? true : false;
+function isUserLoggedIn() {
+  const userLoggedIn = localStorage.getItem("userLoggedIn");
+  return userLoggedIn === "true" ? true : false;
 }
 
 document.addEventListener("DOMContentLoaded", async (e) => {
@@ -307,18 +324,19 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     signUpBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
 
-    const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-    const requestedServices  = JSON.parse(localStorage.getItem('requestedServices')) || [];
-    const servicesContainerTitle = document.getElementById('container-title');
-    if(userObj.length != 0){
+    const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
+    const requestedServices =
+      JSON.parse(localStorage.getItem("requestedServices")) || [];
+    const servicesContainerTitle = document.getElementById("container-title");
+    if (userObj.length != 0) {
       // console.log(userObj)
       if(userObj.isServiceProvider == true){
       // console.log("inside provider")
         if(!requestedServices || requestedServices.length === 0){
           // console.log("No req")
           noServiceRequested();
-          servicesContainerTitle.innerText = 'Available Requests for Service'
-        }else{
+          servicesContainerTitle.innerText = "Available Requests for Service";
+        } else {
           // console.log("yes req")
           // console.log(requestedServices)
           showRequestedServices(services, requestedServices);
@@ -399,7 +417,7 @@ function showRequestedServices(services, requestedServices) {
     noServiceRequested();
     servicesContainerTitle.innerText = "Requested Services";
   } else {
-    // console.log("reqArr" ,requestedServicesArray)
+    // console.log("reqArr" ,requestedServicesArray)  
     // console.log("reqObj" ,requestedServicesObj)
     servicesContainer.innerHTML = "";
     servicesContainerTitle.innerText = "Requested Services";
@@ -454,8 +472,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedCategory = e.target.dataset.category;
     if (selectedCategory) {
       handleFilter(selectedCategory);
-    //   // Reset pagination to the first page when a new category is selected
-    // handlePaginationClick(1); console.log("Received services:", services);
+      //   // Reset pagination to the first page when a new category is selected
+      // handlePaginationClick(1); console.log("Received services:", services);
     }
   });
 
@@ -480,10 +498,10 @@ function sortServices(order) {
   let services = JSON.parse(localStorage.getItem("services")) || [];
 
   switch (order) {
-    case 'lowToHigh':
+    case "lowToHigh":
       services.sort((a, b) => parseFloat(a.cost) - parseFloat(b.cost));
       break;
-    case 'highToLow':
+    case "highToLow":
       services.sort((a, b) => parseFloat(b.cost) - parseFloat(a.cost));
       break;
 
@@ -506,9 +524,10 @@ function sortServices(order) {
 
   //Code to show the selected option on select
   const sortButton = document.getElementById("sortButton");
-  sortButton.innerText = `Sort (${order === 'lowToHigh' ? 'Low to High' : 'High to Low'})`;
+  sortButton.innerText = `Sort (${
+    order === "lowToHigh" ? "Low to High" : "High to Low"
+  })`;
 }
-
 
 function handleFilter(category) {
   // Fetch services from localStorage
@@ -524,7 +543,9 @@ function handleFilter(category) {
     filterButton.innerText = "Categories";
   } else {
     // Filter services based on the selected category
-    const filteredServices = services.filter((service) => service.category === category);
+    const filteredServices = services.filter(
+      (service) => service.category === category
+    );
 
     // Update the UI with the filtered services
     showAvailableServices(filteredServices);
@@ -534,6 +555,48 @@ function handleFilter(category) {
   }
 }
 
+//PRICE RANGE BUTTON GOES HERE
+document.addEventListener("DOMContentLoaded", function () {
+  const priceRangeButton = document.getElementById("priceRangeButton");
+  const priceRangeOptions = document.getElementById("priceRangeOptions");
+
+  priceRangeButton.addEventListener("click", function () {
+    const dropdownInstance = new bootstrap.Dropdown(priceRangeButton);
+    dropdownInstance.toggle();
+  });
+
+  priceRangeOptions.addEventListener("click", function (e) {
+    const selectedPriceRange = e.target.textContent;
+    handlePriceRange(selectedPriceRange); // Call the handlePriceRange function
+  });
+
+  document.addEventListener("click", function (event) {
+    const priceRangeButtonParent = event.target.closest("#priceRangeButton");
+
+    if (!priceRangeButtonParent) {
+      // Clicked outside the price range button, close the dropdown
+      const priceRangeButtonInstance = new bootstrap.Dropdown(priceRangeButton);
+      priceRangeButtonInstance.hide();
+    }
+  });
+});
+
+function handlePriceRange(selectedPriceRange) {
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+  
+  // Implement logic to filter services based on the selected price range
+  const filteredServices = services.filter((service) => {
+    const serviceCost = parseInt(service.cost);
+    const [min, max] = selectedPriceRange.split('-').map(Number);
+    return serviceCost >= min && (serviceCost <= max || isNaN(max));
+  });
+
+  // Update the UI with the filtered services
+  showAvailableServices(filteredServices);
+
+  // Optionally, update other UI elements or perform additional actions
+  console.log("Selected Price Range:", selectedPriceRange);
+}
 //Pagination code from below
 
 // const itemsPerPage = 6;
@@ -591,5 +654,4 @@ function handleFilter(category) {
 //   const services = JSON.parse(localStorage.getItem("services")) || [];
 //   showAvailableServicesWithPagination(services, selectedCategory, page);
 // } --PAGINATION
-
 
