@@ -7,6 +7,7 @@ function showAvailableServices(services,selectedCategory = "All") {
 
   if (userObj.isServiceProvider) {
     servicesContainerTitle.innerText = "Requested Services";
+    // show only requested services to the service provider for particulars service providers category and also which are not accepted by the service provider
     services = services.filter(
       (service) =>
         service.category === userObj.serviceProviderCategory &&
@@ -73,6 +74,12 @@ function createServiceCard(service, btnText) {
   return card;
 }
 
+function isUserLoggedIn() {
+  const userLoggedIn = localStorage.getItem("userLoggedIn");
+  return userLoggedIn === "true" ? true : false;
+}
+
+// function to book service for user
 function handleBookService(e) {
   const loggedIn = isUserLoggedIn();
   if (!loggedIn) {
@@ -95,14 +102,10 @@ function handleBookService(e) {
     const users = JSON.parse(localStorage.getItem("users"));
     const services = JSON.parse(localStorage.getItem("services"));
     const requestedServiceId = parseInt(e.target.id);
-    const requestedServices =
-      JSON.parse(localStorage.getItem("requestedServices")) || [];
+    const requestedServices = JSON.parse(localStorage.getItem("requestedServices")) || [];
 
     // check if user have more than 3 services booked or requested
-    if (
-      userObj.requestedServices.length >= 3 ||
-      userObj.activeServices.length >= 3
-    ) {
+    if (userObj.requestedServices.length >= 3 || userObj.activeServices.length >= 3 ) {
       Toastify({
         text: "You have booked maximum of 3 services, try again after completion of previous service",
         duration: 2000,
@@ -176,6 +179,7 @@ function handleBookService(e) {
   }
 }
 
+// function to accept service by service provider
 function handleAcceptRequest(e) {
   const loggedIn = isUserLoggedIn();
 
@@ -198,8 +202,7 @@ function handleAcceptRequest(e) {
   const services = JSON.parse(localStorage.getItem("services")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
-  const requestedServices =
-    JSON.parse(localStorage.getItem("requestedServices")) || [];
+  const requestedServices = JSON.parse(localStorage.getItem("requestedServices")) || [];
 
   if (userObj.acceptedServices.length >= 3) {
     Toastify({
@@ -279,11 +282,6 @@ function handleAcceptRequest(e) {
 
   // Call show requested service function
   showRequestedServices(services, updatedRequestedServicesObj);
-}
-
-function isUserLoggedIn() {
-  const userLoggedIn = localStorage.getItem("userLoggedIn");
-  return userLoggedIn === "true" ? true : false;
 }
 
 document.addEventListener("DOMContentLoaded", async (e) => {
