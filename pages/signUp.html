@@ -35,6 +35,16 @@
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" required>
         </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="is-provider">
+          <label class="form-check-label" for="is-provider">Is Service Provider</label>
+        </div>
+        <div id="service-provider-fields" style="display: none;">
+          <div class="mb-3">
+            <label for="service-provider-category" class="form-label">Service Provider Category</label>
+            <input type="text" class="form-control" id="service-provider-category">
+          </div>
+        </div>
         <button type="submit" class="btn btn-primary" >Register</button>
       </form>
     </div>
@@ -56,6 +66,16 @@
       if(userLoggedIn == 'true'){
         window.location.href = '/index.html'
       }
+
+      const isProviderCheckbox = document.getElementById('is-provider');
+      const serviceProviderFields = document.getElementById('service-provider-fields');
+      isProviderCheckbox.addEventListener('change',(e)=>{
+        if (isProviderCheckbox.checked) {
+          serviceProviderFields.style.display = 'block';
+        } else {
+          serviceProviderFields.style.display = 'none';
+        }
+      })
     })
   </script>
   <script src="../script/signup.js"></script>
