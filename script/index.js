@@ -1,37 +1,98 @@
-function showAvailableServices(services, selectedCategory = 'All') {
+function showAvailableServices(
+  services,
+  selectedCategory = "All",
+  currentPage = 1,
+  itemsPerPage = 6
+) {
   // console.log("Received services:", services); --PAGINATION
   let servicesContainer = document.getElementById("services-container");
   let servicesContainerTitle = document.getElementById("container-title");
-  const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-  
+  const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
+
   servicesContainer.innerHTML = "";
 
-  if(userObj.isServiceProvider){
+  if (userObj.isServiceProvider) {
     servicesContainerTitle.innerText = "Requested Services";
-    services = services.filter((service)=> (service.category === userObj.serviceProviderCategory) && service.isConsumed && !userObj.acceptedServices.includes(service.serviceId));
+    services = services.filter(
+      (service) =>
+        service.category === userObj.serviceProviderCategory &&
+        service.isConsumed &&
+        !userObj.acceptedServices.includes(service.serviceId)
+    );
   }
-  
+
   // Check if there are no services
   if (services.length === 0) {
     servicesContainer.innerHTML = "<h3>No requested services found</h3>";
     return;
   }
 
-  services.forEach((element) => {
-    if(userObj.isServiceProvider){
-      if (element.isConsumed && (element.category === userObj.serviceProviderCategory)) {
+  // Calculate start and end indices for pagination
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  // Display services for the current page
+  services.slice(startIndex, endIndex).forEach((element) => {
+    if (userObj.isServiceProvider) {
+      if (
+        element.isConsumed &&
+        element.category === userObj.serviceProviderCategory
+      ) {
         let card = createServiceCard(element, "Accept");
         servicesContainer.appendChild(card);
       }
-    }else{
+    } else {
       servicesContainerTitle.innerText = "Available Services";
-      if (!element.isConsumed && (selectedCategory === 'All' || element.category === selectedCategory)) {
+      if (
+        !element.isConsumed &&
+        (selectedCategory === "All" || element.category === selectedCategory)
+      ) {
         let card = createServiceCard(element, "Book Service");
         servicesContainer.appendChild(card);
       }
     }
   });
+
+  // Add pagination
+  updatePagination(currentPage, Math.ceil(services.length / itemsPerPage),itemsPerPage);
 }
+
+function updatePagination(currentPage, totalPages,itemsPerPage) {
+  let paginationContainer = document.getElementById("pagination-container");
+  paginationContainer.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    let pageItem = document.createElement("span");
+    pageItem.innerText = i;
+    pageItem.addEventListener("click", () => handlePaginationClick(i, itemsPerPage));
+    if (i === currentPage) {
+      pageItem.classList.add("active");
+    }
+    paginationContainer.appendChild(pageItem);
+  }
+}
+
+function handlePaginationClick(pageNumber, itemsPerPage) {
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+  const selectedCategory = document
+    .getElementById("filterButton")
+    .innerText.replace("Categories", "")
+    .replace(")", "")
+    .replace("(", "")
+    .trim();
+  console.log("Pagination Clicked - Page Number:", pageNumber);
+  showAvailableServices(services, selectedCategory, pageNumber, itemsPerPage);
+  updatePagination(pageNumber, Math.ceil(services.length / itemsPerPage));
+}
+
+document.addEventListener("DOMContentLoaded", async (e) => {
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+  const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
+  showAvailableServices(services, selectedCategory);
+});
+
+
+
 
 function createServiceCard(service, btnText) {
   // console.log("inside create card", service)
@@ -170,11 +231,21 @@ function handleBookService(e) {
         background: "rgb(12, 188, 12)",
       },
     }).showToast();
-    const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
-    console.log("Booked", selectedCategory , selectedCategory.length, updatedServices)
-    if(selectedCategory.length != 0){
-      showAvailableServices(updatedServices,selectedCategory);
-    }else{
+    const selectedCategory = document
+      .getElementById("filterButton")
+      .innerText.replace("Categories", "")
+      .replace(")", "")
+      .replace("(", "")
+      .trim();
+    console.log(
+      "Booked",
+      selectedCategory,
+      selectedCategory.length,
+      updatedServices
+    );
+    if (selectedCategory.length != 0) {
+      showAvailableServices(updatedServices, selectedCategory);
+    } else {
       showAvailableServices(updatedServices);
     }
   }
@@ -330,9 +401,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
     const servicesContainerTitle = document.getElementById("container-title");
     if (userObj.length != 0) {
       // console.log(userObj)
-      if(userObj.isServiceProvider == true){
-      // console.log("inside provider")
-        if(!requestedServices || requestedServices.length === 0){
+      if (userObj.isServiceProvider == true) {
+        // console.log("inside provider")
+        if (!requestedServices || requestedServices.length === 0) {
           // console.log("No req")
           noServiceRequested();
           servicesContainerTitle.innerText = "Available Requests for Service";
@@ -360,36 +431,48 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
   const searchInput = document.getElementById("searchInput");
   searchInput.addEventListener("input", function (e) {
-    const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
+    const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
     const query = e.target.value.toString().trim().toLowerCase();
-    if(userObj.isServiceProvider){
-      if(query.length === 0){
+    if (userObj.isServiceProvider) {
+      if (query.length === 0) {
         showAvailableServices(services);
-      }else{
-        performSearch(query.toString(), services,userObj.serviceProviderCategory);
+      } else {
+        performSearch(
+          query.toString(),
+          services,
+          userObj.serviceProviderCategory
+        );
       }
-    }else{
-      const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
+    } else {
+      const selectedCategory = document
+        .getElementById("filterButton")
+        .innerText.replace("Categories", "")
+        .replace(")", "")
+        .replace("(", "")
+        .trim();
       // Trigger search on input change
-      if(query.length === 0){
-        if(selectedCategory.length != 0){
-          showAvailableServices(services,selectedCategory);
-        }else{
+      if (query.length === 0) {
+        if (selectedCategory.length != 0) {
+          showAvailableServices(services, selectedCategory);
+        } else {
           showAvailableServices(services);
         }
-      }else{
-        performSearch(query.toString(), services,selectedCategory);
+      } else {
+        performSearch(query.toString(), services, selectedCategory);
       }
     }
-    });
   });
+});
 
-function performSearch(query, services,selectedCategory) {
+function performSearch(query, services, selectedCategory) {
   const filteredServices = services.filter((service) => {
     return (
       (service.name.toLowerCase().includes(query) ||
-      service.description.toLowerCase().includes(query) ||
-      service.category.toLowerCase().includes(query)) && (selectedCategory.length != 0 ? service.category === selectedCategory: true) 
+        service.description.toLowerCase().includes(query) ||
+        service.category.toLowerCase().includes(query)) &&
+      (selectedCategory.length != 0
+        ? service.category === selectedCategory
+        : true)
     );
   });
   if (filteredServices.length === 0) {
@@ -417,7 +500,7 @@ function showRequestedServices(services, requestedServices) {
     noServiceRequested();
     servicesContainerTitle.innerText = "Requested Services";
   } else {
-    // console.log("reqArr" ,requestedServicesArray)  
+    // console.log("reqArr" ,requestedServicesArray)
     // console.log("reqObj" ,requestedServicesObj)
     servicesContainer.innerHTML = "";
     servicesContainerTitle.innerText = "Requested Services";
@@ -481,11 +564,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const sortButtonParent = event.target.closest("#sortButton");
     const filterButtonParent = event.target.closest("#filterButton");
 
-    if(!sortButtonParent){
+    if (!sortButtonParent) {
       const sortButtonInstance = new bootstrap.Dropdown(sortButton);
       sortButtonInstance.hide();
     }
-    if(!filterButtonParent){
+    if (!filterButtonParent) {
       const filterButtonInstance = new bootstrap.Dropdown(filterButton);
       filterButtonInstance.hide();
     }
@@ -514,11 +597,18 @@ function sortServices(order) {
   localStorage.setItem("services", JSON.stringify(services));
 
   // Call a function to update the UI with the sorted services
-  const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
-  if(selectedCategory.length != 0){
-    let updatedServices = services.filter((service)=> service.category === selectedCategory);
-    showAvailableServices(updatedServices,selectedCategory);
-  }else{
+  const selectedCategory = document
+    .getElementById("filterButton")
+    .innerText.replace("Categories", "")
+    .replace(")", "")
+    .replace("(", "")
+    .trim();
+  if (selectedCategory.length != 0) {
+    let updatedServices = services.filter(
+      (service) => service.category === selectedCategory
+    );
+    showAvailableServices(updatedServices, selectedCategory);
+  } else {
     showAvailableServices(services);
   }
 
@@ -583,11 +673,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function handlePriceRange(selectedPriceRange) {
   const services = JSON.parse(localStorage.getItem("services")) || [];
-  
+
   // Implement logic to filter services based on the selected price range
   const filteredServices = services.filter((service) => {
     const serviceCost = parseInt(service.cost);
-    const [min, max] = selectedPriceRange.split('-').map(Number);
+    const [min, max] = selectedPriceRange.split("-").map(Number);
     return serviceCost >= min && (serviceCost <= max || isNaN(max));
   });
 
@@ -654,4 +744,3 @@ function handlePriceRange(selectedPriceRange) {
 //   const services = JSON.parse(localStorage.getItem("services")) || [];
 //   showAvailableServicesWithPagination(services, selectedCategory, page);
 // } --PAGINATION
-
