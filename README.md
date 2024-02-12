@@ -65,7 +65,7 @@ The Urban Company Job/Work Allocation Dashboard is a web application designed to
   "isServiceProvider": false,
   "requestedServices": [],
   "activeServices": [],
-  "acceptedServices: []
+  "acceptedServices": []
 }
 ```
 
