@@ -55,11 +55,22 @@
   bottom: 5px;
 }
 
+.welcome-user{
+  font-size: 18px !important;
+}
+
+.welcome-user .pipe{
+  margin-right: 10px;
+}
+
 @media (max-width: 990px) {
   .nav-link.active::before {
     width: 10%;
     left: 0;
     transform: translateX(0%);
+  }
+  .pipe{
+    display: none;
   }
 }
 

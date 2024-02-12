@@ -15,7 +15,7 @@
   <nav class="navbar navbar-expand-lg bg-dark bg-gradient">
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html">Urban Company</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -32,6 +32,9 @@
           </li>
           <li class="nav-item">
             <a href="/pages/acceptedServices.html" class="nav-link" id="accepted-services-btn">Accepted Services</a>
+          </li>
+          <li class="nav-item welcome-user-link">
+            <span class="nav-link welcome-user" > <span class="pipe"> | </span> <span id="user-name-title"></span></span>
           </li>
         </ul>
         <button class="btn btn-outline-success mx-2" type="button" id="login-btn">Login</button>
@@ -87,8 +90,6 @@
     </div>
   </div>
 
-
-
   <div class="container border">
     <h2 id="container-title">Available Services</h2>
     <div id="services-container" class="row"></div>
@@ -113,10 +114,13 @@
       let acceptedServicesBtn = document.getElementById('accepted-services-btn');
 
       if (!userLoggedIn || userLoggedIn == 'false') {
+        document.getElementsByClassName('welcome-user-link')[0].style.display = 'none'
         requestedServicesBtn.style.display = 'none';
         activeServicesBtn.style.display = 'none';
         acceptedServicesBtn.style.display = 'none';
       } else if (userLoggedIn == 'true') {
+        document.getElementsByClassName('welcome-user-link')[0].style.display = 'block';
+        document.getElementById('user-name-title').innerHTML = `Welcome, ${userObj.name}`;
         if (userObj.isServiceProvider == true) {
           requestedServicesBtn.style.display = 'none';
           activeServicesBtn.style.display = 'none';
