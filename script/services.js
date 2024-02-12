@@ -219,7 +219,6 @@ function handleDeleteService(e){
   let updatedServices = services.filter((service)=> service.serviceId != serviceIdToDelete);
   localStorage.setItem('services', JSON.stringify(updatedServices));
   
-  // alert('Service Deleted');
   Toastify({
     text: "Service Deleted successfully",
     duration: 2000,

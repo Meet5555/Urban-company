@@ -9,7 +9,6 @@ loginForm.addEventListener("submit", function (event) {
   const enteredPassword = passwordInput.value;
 
   if (enteredUsername.toString().trim().length == 0 || enteredPassword.toString().trim().length == 0) {
-    // alert("Must enter username and password");
     Toastify({
       text: "Please enter both username and password correctly",
       duration: 2000,
@@ -40,7 +39,6 @@ loginForm.addEventListener("submit", function (event) {
       localStorage.setItem("userObj", JSON.stringify(user));
       window.location.href = "/index.html";
     } else {
-      // alert("Invalid Credentials. Please try again.");
       Toastify({
         text: "Invalid Credentials. Please try again",
         duration: 2000,
@@ -55,7 +53,6 @@ loginForm.addEventListener("submit", function (event) {
       return;
     }
   } else {
-    // alert("User not Found, Register First.");
     Toastify({
       text: "User not Found, Register First",
       duration: 2000,

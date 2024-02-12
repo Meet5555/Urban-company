@@ -109,8 +109,6 @@ function handleUpdateUser(e, userId) {
         }
       }).showToast();
     } else {
-      // Alert if username already exists
-      // alert('Username already exists. Please choose a different one.');
       Toastify({
         text: 'Username already exists. Please choose a different one.',
         duration: 2000,
@@ -208,7 +206,6 @@ function handleDeleteUser(e) {
         (user) => user.id !== userToBeDeleted.id
       );
       localStorage.setItem('users', JSON.stringify(usersWithoutServiceProvider));
-      // alert('user deleted');
       Toastify({
         text: "user deleted successfully",
         duration: 2000,
@@ -250,7 +247,6 @@ function handleDeleteUser(e) {
     // Remove requested services from requestedServices array in local storage
     const updatedRequestedServicesObj = requestedServices.filter((service) => !userRequestedServices.some((userReqService) => userReqService.serviceId === service.requestedService));
     localStorage.setItem('requestedServices', JSON.stringify(updatedRequestedServicesObj));
-    // alert('user deleted');
     Toastify({
       text: "user deleted successfully",
       duration: 2000,

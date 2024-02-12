@@ -101,7 +101,6 @@ function handleDeleteService(e){
   });
   localStorage.setItem('services', JSON.stringify(updatedServices));
 
-  // alert('Request Deleted')
   Toastify({
     text: "Request Deleted Successfully",
     duration: 2000,

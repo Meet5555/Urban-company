@@ -95,7 +95,6 @@
       let category = document.getElementById('service-category').value.toString().trim();
       console.log(name,desc,cost,category)
       if( name =='' || desc == '' || cost == '' || category == ''){
-        // alert("Must fill all fields");
         Toastify({
           text: "Please fill all required fields",
           duration: 2000,
@@ -119,7 +118,6 @@
           "description": desc
         });
         localStorage.setItem('services',JSON.stringify(services));
-        // alert('service added successfully');
         Toastify({
           text: "service added successfully",
           duration: 2000,

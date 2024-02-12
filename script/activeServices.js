@@ -98,7 +98,6 @@ function handleCancelService(e){
   });
   localStorage.setItem('services', JSON.stringify(updatedServices));
 
-  // alert('Booking Canceled')
   Toastify({
     text: "Booking canceled successfully",
     duration: 2000,

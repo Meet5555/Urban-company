@@ -6,7 +6,6 @@ signUpForm.addEventListener('submit',(e)=>{
   let isServiceProvider = document.getElementById('is-provider').checked;
   
   if(username.toString().trim().length == 0 || password.toString().trim().length == 0){
-    // alert('must enter username and password');
     Toastify({
       text: "Please enter both username and password",
       duration: 2000,
@@ -31,7 +30,6 @@ signUpForm.addEventListener('submit',(e)=>{
       return user.name == username;
     });
     if(userExists){
-      // alert('username already exists');
       Toastify({
         text: "Username already exists",
         duration: 2000,

@@ -106,7 +106,6 @@ function handleDeleteService(e){
     return user;
   })
   localStorage.setItem('users',JSON.stringify(updatedUsers));
-  // alert('Request Deleted')
   Toastify({
     text: "Request Deleted successfully",
     duration: 2000,
@@ -164,7 +163,6 @@ function handleCompleteService(e){
   })
   localStorage.setItem('users',JSON.stringify(updatedUsers));
 
-  // alert('service completed')
   Toastify({
     text: "Service completed successfully",
     duration: 2000,
