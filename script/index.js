@@ -4,7 +4,7 @@ function showAvailableServices(
   currentPage = 1,
   itemsPerPage = 6
 ) {
-  // console.log("Received services:", services); --PAGINATION
+
   let servicesContainer = document.getElementById("services-container");
   let servicesContainerTitle = document.getElementById("container-title");
   const userObj = JSON.parse(localStorage.getItem("userObj")) || [];
@@ -26,73 +26,22 @@ function showAvailableServices(
     servicesContainer.innerHTML = "<h3>No services found</h3>";
     return;
   }
-
-  // Calculate start and end indices for pagination
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  // Display services for the current page
-  services.slice(startIndex, endIndex).forEach((element) => {
-    if (userObj.isServiceProvider) {
-      if (
-        element.isConsumed &&
-        element.category === userObj.serviceProviderCategory
-      ) {
+  
+  services.forEach((element) => {
+    if(userObj.isServiceProvider){
+      if (element.isConsumed && (element.category === userObj.serviceProviderCategory)) {
         let card = createServiceCard(element, "Accept");
         servicesContainer.appendChild(card);
       }
-    } else {
+    }else{
       servicesContainerTitle.innerText = "Available Services";
-      if (
-        !element.isConsumed &&
-        (selectedCategory === "All" || element.category === selectedCategory)
-      ) {
+      if (!element.isConsumed && (selectedCategory === 'All' || element.category === selectedCategory)) {
         let card = createServiceCard(element, "Book Service");
         servicesContainer.appendChild(card);
       }
     }
   });
-
-  // Add pagination
-  updatePagination(currentPage, Math.ceil(services.length / itemsPerPage),itemsPerPage);
 }
-
-function updatePagination(currentPage, totalPages,itemsPerPage) {
-  let paginationContainer = document.getElementById("pagination-container");
-  paginationContainer.innerHTML = "";
-
-  for (let i = 1; i <= totalPages; i++) {
-    let pageItem = document.createElement("span");
-    pageItem.innerText = i;
-    pageItem.addEventListener("click", () => handlePaginationClick(i, itemsPerPage));
-    if (i === currentPage) {
-      pageItem.classList.add("active");
-    }
-    paginationContainer.appendChild(pageItem);
-  }
-}
-
-function handlePaginationClick(pageNumber, itemsPerPage) {
-  const services = JSON.parse(localStorage.getItem("services")) || [];
-  const selectedCategory = document
-    .getElementById("filterButton")
-    .innerText.replace("Categories", "")
-    .replace(")", "")
-    .replace("(", "")
-    .trim();
-  console.log("Pagination Clicked - Page Number:", pageNumber);
-  showAvailableServices(services, selectedCategory, pageNumber, itemsPerPage);
-  updatePagination(pageNumber, Math.ceil(services.length / itemsPerPage));
-}
-
-document.addEventListener("DOMContentLoaded", async (e) => {
-  const services = JSON.parse(localStorage.getItem("services")) || [];
-  const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
-  showAvailableServices(services, selectedCategory);
-});
-
-
-
 
 function createServiceCard(service, btnText) {
   // console.log("inside create card", service)
@@ -684,61 +633,3 @@ function handlePriceRange(selectedPriceRange) {
   // Optionally, update other UI elements or perform additional actions
   console.log("Selected Price Range:", selectedPriceRange);
 }
-
-//Pagination code from below
-
-// const itemsPerPage = 6;
-
-// function showAvailableServicesWithPagination(services, selectedCategory = null, currentPage = 1) {
-//   const startIndex = (currentPage - 1) * itemsPerPage;
-//   const endIndex = startIndex + itemsPerPage;
-
-//   console.log("startIndex:", startIndex);
-//   console.log("endIndex:", endIndex);
-
-//   const servicesToShow = services
-//     .filter((element) => !element.isConsumed && (selectedCategory === null || element.category === selectedCategory))
-//     .slice(startIndex, endIndex);
-
-//   console.log("Filtered servicesToShow:", servicesToShow);
-
-//   showAvailableServices(servicesToShow, selectedCategory);
-
-//   // Update pagination links
-//   updatePagination(currentPage, Math.ceil(services.length / itemsPerPage));
-// }
-
-// function updatePagination(currentPage, totalPages) {
-//   const paginationContainer = document.getElementById("pagination-container");
-//   paginationContainer.innerHTML = "";
-
-//   console.log("currentPage:", currentPage);
-//   console.log("totalPages:", totalPages);
-
-//   for (let i = 1; i <= totalPages; i++) {
-//     const pageLink = document.createElement("a");
-//     pageLink.classList.add("page-link");
-//     pageLink.href = "#";
-//     pageLink.textContent = i;
-//     pageLink.addEventListener("click", () => handlePaginationClick(i));
-
-//     // Highlight the current page
-//     if (i === currentPage) {
-//       pageLink.classList.add("active");
-//     }
-
-//     pageLink.addEventListener("click", () => handlePaginationClick(i));
-
-//     const pageItem = document.createElement("li");
-//     pageItem.classList.add("page-item");
-//     pageItem.appendChild(pageLink);
-
-//     paginationContainer.appendChild(pageItem);
-//   }
-// }
-
-// function handlePaginationClick(page) {
-//   const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
-//   const services = JSON.parse(localStorage.getItem("services")) || [];
-//   showAvailableServicesWithPagination(services, selectedCategory, page);
-// } --PAGINATION
