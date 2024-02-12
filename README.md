@@ -104,6 +104,9 @@ The Urban Company Job/Work Allocation Dashboard is a web application designed to
 - **Service Completion:** Providers can mark services as completed.
 - **Interconnections:** When user / services deleted or canceled then all the arrays gets updated properly.
 
+## Data Storage
+- for storing all schema and array brower's local storage API is used.
+
 ## Setup and Installation
 1. Clone the repository.
 2. Open `index.html` in a web browser.
