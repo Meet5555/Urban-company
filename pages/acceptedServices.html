@@ -29,6 +29,9 @@
             <li class="nav-item">
               <a href="/pages/acceptedServices.html" class="nav-link active" id="accepted-services-btn">Accepted Services</a>
             </li>
+            <li class="nav-item welcome-user-link">
+              <span class="nav-link welcome-user" > <span class="pipe"> | </span> <span id="user-name-title"></span></span>
+            </li>
           </ul>
             <button class="btn btn-outline-danger mx-2" type="button" id="logout-btn">Logout</button>
         </div>
@@ -60,9 +63,11 @@
       let activeServicesBtn = document.getElementById('active-services-btn');
       let acceptedServicesBtn = document.getElementById('accepted-services-btn');
       
-      if(userLoggedIn == 'false'){
+      if(!userLoggedIn || userLoggedIn == 'false'){
         window.location.href = '/index.html'
       }else if(userLoggedIn == 'true'){
+        document.getElementsByClassName('welcome-user-link')[0].style.display = 'block';
+        document.getElementById('user-name-title').innerHTML = `Welcome, ${userObj.name}`;
         if(userObj.isServiceProvider == true){
           requestedServicesBtn.style.display = 'none';
           activeServicesBtn.style.display = 'none';
