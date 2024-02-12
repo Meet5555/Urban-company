@@ -488,7 +488,6 @@ function sortServices(order) {
       break;
 
     default:
-      // Default sorting (you can customize this based on your needs)
       services.sort((a, b) => a.serviceId - b.serviceId);
       break;
   }
@@ -497,7 +496,13 @@ function sortServices(order) {
   localStorage.setItem("services", JSON.stringify(services));
 
   // Call a function to update the UI with the sorted services
-  showAvailableServices(services);
+  const selectedCategory = document.getElementById("filterButton").innerText.replace("Categories", "").replace(")", "").replace("(","").trim();
+  if(selectedCategory.length != 0){
+    let updatedServices = services.filter((service)=> service.category === selectedCategory);
+    showAvailableServices(updatedServices,selectedCategory);
+  }else{
+    showAvailableServices(services);
+  }
 
   //Code to show the selected option on select
   const sortButton = document.getElementById("sortButton");
