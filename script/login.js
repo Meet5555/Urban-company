@@ -12,7 +12,7 @@ loginForm.addEventListener("submit", function (event) {
     // alert("Must enter username and password");
     Toastify({
       text: "Please enter both username and password correctly",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -26,14 +26,14 @@ loginForm.addEventListener("submit", function (event) {
   }
 
   // Taking the data from Local storage
-  const usersData = JSON.parse(localStorage.getItem("users")) || [];
+  const users = JSON.parse(localStorage.getItem("users")) || [];
 
   // Checking if the entered username is valid
-  const isUsernameValid = usersData.some((u) => u.name === enteredUsername.toString().trim());
+  const isUsernameValid = users.some((u) => u.name === enteredUsername.toString().trim());
 
   if (isUsernameValid) {
     // If username is valid, check the password
-    const user = usersData.find((u) => u.name === enteredUsername.toString().trim() && u.password === enteredPassword.toString().trim());
+    const user = users.find((u) => u.name === enteredUsername.toString().trim() && u.password === enteredPassword.toString().trim());
 
     if (user) {
       localStorage.setItem("userLoggedIn", "true");
@@ -43,7 +43,7 @@ loginForm.addEventListener("submit", function (event) {
       // alert("Invalid Credentials. Please try again.");
       Toastify({
         text: "Invalid Credentials. Please try again",
-        duration: 3000,
+        duration: 2000,
         close: true,
         gravity: "top",
         position: "center",
@@ -52,14 +52,13 @@ loginForm.addEventListener("submit", function (event) {
           background: "rgb(252, 90, 90)",
         }
       }).showToast();
-      resetForm();
       return;
     }
   } else {
     // alert("User not Found, Register First.");
     Toastify({
       text: "User not Found, Register First",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",

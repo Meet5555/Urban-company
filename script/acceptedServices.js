@@ -8,45 +8,34 @@ function showAcceptedServices(services){
 }
 
 function createServiceCard(service){
-  // console.log("inside create card", service)
   const card = document.createElement('div');
-  card.classList.add('service-card');
-  card.classList.add('card');
-  card.classList.add('col-3');
+  card.classList.add('service-card','card','col-3');
 
   const title = document.createElement('h2')
-  title.classList.add('service-title');
-  title.classList.add('card-title');
+  title.classList.add('service-title','card-title');
   title.textContent = service.name;
   
   const description = document.createElement('h4');
-  description.classList.add('service-description');
-  description.classList.add('card-text');
+  description.classList.add('service-description','card-text');
   description.textContent = service.description;
 
   const category = document.createElement('h5');
-  category.classList.add('service-category');
-  category.classList.add('card-text');
+  category.classList.add('service-category','card-text');
   category.textContent = `Category: ${service.category}`;
   
   const cost = document.createElement('h4');
-  cost.classList.add('service-cost');
-  cost.classList.add('card-text');
+  cost.classList.add('service-cost','card-text');
   cost.textContent =` Cost: ₹${service.cost}`;
 
   const deleteServiceButton = document.createElement('button')
   deleteServiceButton.id = service.serviceId
-  deleteServiceButton.classList.add('delete-requested-service-btn');
-  deleteServiceButton.classList.add('btn');
-  deleteServiceButton.classList.add('btn-danger');
+  deleteServiceButton.classList.add('delete-requested-service-btn','btn','btn-danger');
   deleteServiceButton.textContent = 'Delete';
   deleteServiceButton.addEventListener('click',(e)=>{ handleDeleteService(e) });
 
   const completeServiceButton = document.createElement('button')
   completeServiceButton.id = service.serviceId
-  completeServiceButton.classList.add('complete-service-btn');
-  completeServiceButton.classList.add('btn');
-  completeServiceButton.classList.add('btn-success');
+  completeServiceButton.classList.add('complete-service-btn','btn','btn-success');
   completeServiceButton.textContent = 'Completed';
   completeServiceButton.addEventListener('click',(e)=>{ handleCompleteService(e) });
 
@@ -63,7 +52,6 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
   const services = JSON.parse(localStorage.getItem('services')) || [];
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-  console.log(userObj)
   const userAcceptedServices = services.filter((service)=>{
     return userObj.acceptedServices.includes(service.serviceId);
   })
@@ -86,7 +74,6 @@ function noServiceAccepted(){
 }
 
 function handleDeleteService(e){
-  console.log(e)
   const userObj = JSON.parse(localStorage.getItem('userObj'));
   const users = JSON.parse(localStorage.getItem('users'));
   const services = JSON.parse(localStorage.getItem('services'));
@@ -108,7 +95,6 @@ function handleDeleteService(e){
   userObj.acceptedServices = userObj.acceptedServices.filter((serviceId)=>{return serviceId != requestedServiceId});
   localStorage.setItem('userObj',JSON.stringify(userObj));
 
-  console.log("Before update",users);
   // update requestedUser - activeService and requestedService array and also update serviceProviders obj
   let updatedUsers = users.map((user)=>{
     if(user.id == userObj.id){
@@ -119,12 +105,11 @@ function handleDeleteService(e){
     }
     return user;
   })
-  console.log("Updated",updatedUsers)
   localStorage.setItem('users',JSON.stringify(updatedUsers));
   // alert('Request Deleted')
   Toastify({
     text: "Request Deleted successfully",
-    duration: 3000,
+    duration: 2000,
     close: true,
     gravity: "top",
     position: "center",
@@ -182,7 +167,7 @@ function handleCompleteService(e){
   // alert('service completed')
   Toastify({
     text: "Service completed successfully",
-    duration: 3000,
+    duration: 2000,
     close: true,
     gravity: "top",
     position: "center",

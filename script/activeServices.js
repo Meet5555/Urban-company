@@ -8,37 +8,28 @@ function showAvailableServices(services){
 }
 
 function createServiceCard(service){
-  // console.log("inside create card", service)
   const card = document.createElement('div');
-  card.classList.add('service-card');
-  card.classList.add('card');
-  card.classList.add('col-3');
+  card.classList.add('service-card','card','col-3');
 
   const title = document.createElement('h2')
-  title.classList.add('service-title');
-  title.classList.add('card-title');
+  title.classList.add('service-title','card-title');
   title.textContent = service.name;
   
   const description = document.createElement('h4');
-  description.classList.add('service-description');
-  description.classList.add('card-text');
+  description.classList.add('service-description','card-text');
   description.textContent = service.description;
 
   const category = document.createElement('h5');
-  category.classList.add('service-category');
-  category.classList.add('card-text');
+  category.classList.add('service-category','card-text');
   category.textContent = `Category: ${service.category}`;
   
   const cost = document.createElement('h4');
-  cost.classList.add('service-cost');
-  cost.classList.add('card-text');
+  cost.classList.add('service-cost','card-text');
   cost.textContent =` Cost: ₹${service.cost}`;
 
   const cancelServiceButton = document.createElement('button')
   cancelServiceButton.id = service.serviceId
-  cancelServiceButton.classList.add('delete-requested-service-btn');
-  cancelServiceButton.classList.add('btn');
-  cancelServiceButton.classList.add('btn-danger');
+  cancelServiceButton.classList.add('delete-requested-service-btn','btn','btn-danger');
   cancelServiceButton.textContent = 'Cancel Service';
   cancelServiceButton.addEventListener('click',(e)=>{ handleCancelService(e) });
 
@@ -54,7 +45,7 @@ document.addEventListener('DOMContentLoaded',async (e)=>{
   const services = JSON.parse(localStorage.getItem('services')) || [];
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const userObj = JSON.parse(localStorage.getItem('userObj')) || [];
-  console.log(userObj)
+
   const userActiveServices = services.filter((service)=>{
     return userObj.activeServices.includes(service.serviceId);
   })
@@ -110,7 +101,7 @@ function handleCancelService(e){
   // alert('Booking Canceled')
   Toastify({
     text: "Booking canceled successfully",
-    duration: 3000,
+    duration: 2000,
     close: true,
     gravity: "top",
     position: "center",

@@ -4,12 +4,12 @@ signUpForm.addEventListener('submit',(e)=>{
   let username = document.getElementById('username').value;
   let password = document.getElementById('password').value;
   let isServiceProvider = document.getElementById('is-provider').checked;
-  console.log(isServiceProvider)
+  
   if(username.toString().trim().length == 0 || password.toString().trim().length == 0){
     // alert('must enter username and password');
     Toastify({
       text: "Please enter both username and password",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -34,7 +34,7 @@ signUpForm.addEventListener('submit',(e)=>{
       // alert('username already exists');
       Toastify({
         text: "Username already exists",
-        duration: 3000,
+        duration: 2000,
         close: true,
         gravity: "top",
         position: "center",
@@ -80,7 +80,7 @@ function registerUser(username,password,isServiceProvider){
     localStorage.setItem('userObj',JSON.stringify(newUser));
     Toastify({
       text: "Registration Successful",
-      duration: 3000,
+      duration: 2000,
       close: true,
       gravity: "top",
       position: "center",
@@ -123,7 +123,7 @@ function registerServiceProvider(users,username,password){
   localStorage.setItem('userObj',JSON.stringify(newUser));
   Toastify({
     text: "Registration Successful",
-    duration: 3000,
+    duration: 2000,
     close: true,
     gravity: "top",
     position: "center",

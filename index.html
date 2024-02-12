@@ -86,10 +86,8 @@
   <div class="container border">
     <h2 id="container-title">Available Services</h2>
     <div id="services-container" class="row"></div>
-    <div id="pagination-container" class="pagination mt-3"></div>
+    <div id="pagination-btns" class="pagination mt-3"></div>
   </div>
-
-  <div id="pagination-container" class="pagination mt-3"></div>
 
   <script>
     let signUpBtn = document.getElementById('sign-up-btn');
@@ -105,13 +103,14 @@
     document.addEventListener('DOMContentLoaded', async (e) => {
       const userLoggedIn = localStorage.getItem("userLoggedIn") || false;
       const userObj = JSON.parse(localStorage.getItem("userObj")) || false;
+      const services = JSON.parse(localStorage.getItem('services'));
       let requestedServicesBtn = document.getElementById('requested-services-btn');
       let activeServicesBtn = document.getElementById('active-services-btn');
       let acceptedServicesBtn = document.getElementById('accepted-services-btn');
 
-      const services = JSON.parse(localStorage.getItem('services'));
+      // extracting unique categories to show it dynamically in dropdown
+      const filterOptions = document.getElementById('filterOptions');
       const uniqueCategories = Array.from(new Set(services.map(service => service.category))).sort();
-
       uniqueCategories.forEach(category => {
         const dropdownItem = document.createElement('a');
         dropdownItem.classList.add('dropdown-item');
@@ -121,37 +120,28 @@
         filterOptions.appendChild(dropdownItem);
       });
 
-      // Get the priceRangeOptions element
+      // extracting unique price ranges to show it dynamically in dropdown
       const priceRangeOptions = document.getElementById('priceRangeOptions');
-
-      // Extract unique price ranges from service costs
       const uniquePriceRanges = Array.from(new Set(services.map(service => parseInt(service.cost))));
 
-      // Sort the unique price ranges in ascending order
       uniquePriceRanges.sort((a, b) => a - b);
-      console.log(uniquePriceRanges)
       // Calculate the step value based on the number of options
       const step = Math.ceil(uniquePriceRanges.length / 5);
 
-      // Generate 5 price range options dynamically
       for (let i = 0; i < 5; i++) {
         const startIndex = i * step;
         const endIndex = (i + 1) * step;
 
-        // Get the minimum and maximum values within the current range
         const minCost = uniquePriceRanges[startIndex] ??  uniquePriceRanges[uniquePriceRanges.length - 1];
         const maxCost = endIndex < uniquePriceRanges.length ? uniquePriceRanges[endIndex] : uniquePriceRanges[uniquePriceRanges.length - 1];
 
-        // Avoid duplicate ranges
+        // Create a dropdown item
         if (minCost !== maxCost) {
-          // Create a dropdown item
           const dropdownItem = document.createElement('a');
           dropdownItem.classList.add('dropdown-item');
           dropdownItem.href = '#';
           dropdownItem.setAttribute('data-category', `${minCost}-${maxCost}`);
           dropdownItem.textContent = `${minCost}-${maxCost}`;
-
-          // Append the item to the dropdown menu
           priceRangeOptions.appendChild(dropdownItem);
         }
       }
